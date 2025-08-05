@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: task-reminder-app
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/apache/default.conf:/etc/apache2/sites-available/000-default.conf
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.5
+    container_name: task-reminder-db
+    volumes:
+      - dbdata_task_reminder:/var/lib/mysql
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: task_reminder
+      MYSQL_USER: laravel_user
+      MYSQL_PASSWORD: password123
+      
+    ports:
+      - "3307:3306" # portsは被らないように注意
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    platform: linux/amd64
+    container_name: task-reminder-phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: laravel_user
+      PMA_PASSWORD: password123
+    depends_on:
+      - db
+
+volumes:
+  dbdata_task_reminder:
