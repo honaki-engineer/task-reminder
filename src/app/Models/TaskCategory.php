@@ -14,4 +14,9 @@ class TaskCategory extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    // すべてのカラムを一括代入OK
+    protected $fillable = [
+        'name',
+    ];
 }

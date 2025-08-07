@@ -18,4 +18,15 @@ class Task extends Model
     {
         return $this->belongsTo(TaskCategory::class);
     }
+
+    // すべてのカラムを一括代入OK
+    protected $fillable = [
+        'user_id',
+        'task_category_id',
+        'title',
+        'description',
+        'start_at',
+        'end_at',
+        'is_completed',
+    ];
 }
