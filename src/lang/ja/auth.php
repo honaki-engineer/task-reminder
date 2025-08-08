@@ -22,4 +22,10 @@ return [
     'login' => 'ログイン',
     'remember_me' => '次回から自動ログイン',
     'forgot_your_password?' => 'パスワードをお忘れの方はこちら',
+
+    // 新規登録画面
+    'name' => '名前',
+    'confirm_password' => 'パスワード(再確認)',
+    'already_registered?' => '登録済みの方はこちら',
+    'register' => '新規登録',
 ];
