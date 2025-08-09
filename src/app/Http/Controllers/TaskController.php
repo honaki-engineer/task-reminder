@@ -84,6 +84,6 @@ class TaskController extends Controller
 
     public function oneDay()
     {
-        //
+        return view('tasks.one_day');
     }
 }
