@@ -11,11 +11,11 @@
                 <div class="p-6 text-gray-900">
 
                     <section class="text-gray-600 body-font relative">
-                    <form action="">
+                    <form action="{{ route('tasks.index') }}">
                         <div class="container px-5 mx-auto">
                             <div class="lg:w-1/2 md:w-2/3 mx-auto">
                             <div class="flex flex-wrap -m-2">
-                                {{-- 必須 --}}
+                                {{-- 必須のcss設定 --}}
                                 @php
                                     $badgeReq = 'ml-2 items-center rounded px-1 py-0.5
                                                 text-[11px] font-semibold bg-red-500 text-white align-top';
@@ -51,8 +51,17 @@
                                     <input type="time" id="end_time" name="end_time" value="{{ old('end_time', '23:59') }}" class="w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </fieldset>
                                 </div>
-                                <div class="p-2 w-full">
-                                <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">登録</button>
+
+                                {{-- ボタンエリア --}}
+                                <div class="w-full p-2 flex flex-col sm:flex-row gap-4 justify-center">
+                                    <button type="submit" name="action" value="store_and_index"
+                                        class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                        登録して終了
+                                    </button>
+                                    <button type="submit" name="action" value="store_and_create"
+                                        class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
+                                        登録して続けて入力
+                                    </button>
                                 </div>
                             </div>
                             </div>
