@@ -29,4 +29,10 @@ class Task extends Model
         'end_at',
         'is_completed',
     ];
+
+    // キャスト
+    protected $casts = [
+        'start_at' => 'datetime',
+        'end_at'   => 'datetime',
+    ];
 }
