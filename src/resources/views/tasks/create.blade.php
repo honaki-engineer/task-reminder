@@ -16,6 +16,16 @@
 
                         <div class="container px-5 mx-auto">
                             <div class="lg:w-1/2 md:w-2/3 mx-auto">
+                            {{-- フラッシュメッセージ --}}
+                            @if(session('success'))
+                                <div class="overflow-x-auto max-w-[794px] mx-auto overflow-auto">
+                                    <div id="flash-message"
+                                        class="inline-block bg-green-100 text-green-800 rounded px-4 py-2 mb-4 transition-opacity duration-1000">
+                                        {{ session('success') }}
+                                    </div>
+                                </div>
+                            @endif
+
                             <div class="flex flex-wrap -m-2">
                                 {{-- 必須のcss設定 --}}
                                 @php
@@ -90,11 +100,22 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    // 日時クリック有効範囲を全域にする
     document.querySelectorAll('.picker-input').forEach(input => {
         if (typeof input.showPicker === 'function') {
             input.addEventListener('click', () => input.showPicker());
         }
     });
+
+
+    // フラッシュメッセージを10秒後にフェードアウトし、さらに2秒後に削除する
+    setTimeout(() => {
+        const flashMessage = document.getElementById('flash-message');
+        if(flashMessage) {
+            flashMessage.classList.add('opacity-0'); // フェードアウト
+            setTimeout(() => flashMessage.remove(), 2000); // 2秒後に flashMessage というHTML要素を DOM(画面上)から完全に削除
+        }
+    }, 10000); // 10秒後にフェード開始
 });
 </script>
 </x-app-layout>
