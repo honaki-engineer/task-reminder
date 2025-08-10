@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('tasks.create')" :active="request()->routeIs('tasks.create')">
                         タスク作成
                     </x-nav-link>
+                    <x-nav-link :href="route('tasks.index')" :active="request()->routeIs('tasks.index')">
+                        タスク一覧
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -75,6 +78,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('tasks.create')" :active="request()->routeIs('tasks.create')">
                 タスク作成
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('tasks.index')" :active="request()->routeIs('tasks.index')">
+                タスク一覧
             </x-responsive-nav-link>
         </div>
 

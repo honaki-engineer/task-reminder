@@ -17,6 +17,6 @@ class TaskCategory extends Model
 
     // すべてのカラムを一括代入OK
     protected $fillable = [
-        'name',
+        'name', 'slug'
     ];
 }

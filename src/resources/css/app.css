@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bar--important-urgent { @apply bg-rose-600 text-white; }
+.panel--important-urgent { @apply bg-rose-50; }
+
+.bar--important { @apply bg-lime-600 text-white; }
+.panel--important { @apply bg-lime-50; }
+
+.bar--urgent { @apply bg-sky-400 text-white; }
+.panel--urgent { @apply bg-sky-50; }
+
+.bar--other { @apply bg-gray-400 text-white; }
+.panel--other { @apply bg-gray-50; }
+
+/* 万一 slug が未設定のときの保険 */
+.bar--default   { @apply bg-gray-300 text-white; }
+.panel--default { @apply bg-gray-50; }

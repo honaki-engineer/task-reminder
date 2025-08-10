@@ -17,7 +17,20 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        // ----- ユーザー情報
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // ----- フォーカスマトリックス情報
+        $taskCategories = TaskCategory::orderBy('id')->get();
+
+        // ----- タスク情報
+        $tasksByCategory = $user->tasks()
+            ->orderBy('end_at')
+            ->get()
+            ->groupBy(fn($t) => (int) $t->task_category_id);
+
+        return view('tasks.index', compact('taskCategories','tasksByCategory'));
     }
 
     /**

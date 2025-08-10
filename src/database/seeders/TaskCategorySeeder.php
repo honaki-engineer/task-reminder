@@ -14,11 +14,29 @@ class TaskCategorySeeder extends Seeder
      */
     public function run()
     {
-        $taskCategories = ['１：緊急*重要', '２：重要', '３：緊急', '４：その他'];
+        $taskCategories = [
+            [
+                'name' => '重要 & 緊急',
+                'slug' => 'important-urgent'
+            ],
+            [
+                'name' => '重要',
+                'slug' => 'important'
+            ],
+            [
+                'name' => '緊急',
+                'slug' => 'urgent'
+            ],
+            [
+                'name' => 'その他',
+                'slug' => 'other'
+            ],
+        ];
 
         foreach($taskCategories as $taskCategory) {
             DB::table('task_categories')->insert([
-                'name' => $taskCategory,
+                'name' => $taskCategory['name'],
+                'slug' => $taskCategory['slug'],
             ]);
         }
     }
