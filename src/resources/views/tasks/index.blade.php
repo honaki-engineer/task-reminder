@@ -25,14 +25,15 @@
                             {{-- 全体のコンテンツ --}}
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 @foreach ($taskCategories as $taskCategory)
+                                    {{-- css --}}
                                     @php
                                         $slug = $taskCategory->slug ?? 'default';
                                         $list = $tasksByCategory[$taskCategory->id] ?? collect();
                                     @endphp
                                     {{-- 1/4のコンテンツ --}}
-                                    <div class="rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-                                        {{-- ヘッダー --}}
-                                        <div class="flex items-center justify-between px-3 py-2 bar--{{ $slug }}">
+                                    <div class="rounded-xl border border-gray-200 overflow-hidden shadow-xl flex flex-col h-80">
+                                        {{-- ヘッダー（固定） --}}
+                                        <div class="flex items-center justify-between px-3 py-2 bar--{{ $slug }} shrink-0">
                                             <div class="font-semibold">{{ $taskCategory->name }}</div>
                                             <div class="flex items-center gap-2">
                                                 <span class="text-xs bg-white/30 rounded-full px-2 py-0.5">{{ $list->count() }}</span>
@@ -41,21 +42,19 @@
                                             </div>
                                         </div>
                                         {{-- 本体リスト --}}
-                                        <ul class="panel--{{ $slug }} p-3 min-h-[260px]">
-                                            @forelse ($list as $task)
+                                        <ul class="panel--{{ $slug }} p-3 flex-1 overflow-y-auto{ -webkit-overflow-scrolling: touch; } overflow-y-scroll">
+                                            @forelse($list as $task)
                                                 <li class="py-1">
-                                                    <div class="flex items-center gap-2">
-                                                        <input type="checkbox" class="rounded" @checked($task->is_completed)>
-                                                        <span class="text-sm text-gray-800">
+                                                    <div class="flex items-start gap-2">
+                                                        <input type="checkbox" class="rounded shrink-0">
+                                                        <span class="text-sm text-gray-800 leading-tight break-words">
                                                             {{ $task->title }}
                                                             @if(!empty($task->description))
                                                                 <span class="ml-1 align-text-top text-xs text-gray-500">💬</span>
                                                             @endif
                                                         </span>
                                                     </div>
-                                                    @if($task->end_at)
-                                                        <div class="pl-6 text-xs text-gray-500">{{ $task->end_at->format('Y/m/d H:i') }}</div>
-                                                    @endif
+                                                    <div class="pl-6 text-xs text-gray-500">{{ $task->end_at->format('Y/m/d H:i') }}</div>
                                                 </li>
                                             @empty
                                                 <li class="text-sm text-gray-400 italic">項目はありません</li>
