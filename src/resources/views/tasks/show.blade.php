@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div @class(['bg-white overflow-hidden shadow-sm sm:rounded-lg', 'bg-green-50' => $task->is_completed])>
                 <div class="p-6 text-gray-900">
 
                     <section class="text-gray-600 body-font relative">
@@ -24,6 +24,13 @@
                             @endif
 
                             <div class="flex flex-wrap -m-2">
+                                @if($task->is_completed)
+                                    <div class="p-2 w-full">
+                                        <span class="inline-block bg-green-500 text-white px-2 py-1 rounded-full text-sm">
+                                            完了済みタスクです。
+                                        </span>
+                                    </div>
+                                @endif
                                 {{-- タイトル --}}
                                 <div class="p-2 w-full">
                                     <div class="relative">
@@ -83,7 +90,7 @@
                                     <form action="{{ route('tasks.complete', ['task' => $task->id ]) }}" method="POST">
                                         @csrf
                                         <button type="submit" name="action" value="store_and_index"
-                                            class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
+                                            class="w-full text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
                                             {{ $task->is_completed ? '未完了に戻す' : '完了' }}
                                         </button>
                                     </form>
