@@ -89,19 +89,23 @@
                                     {{-- 完了 --}}
                                     <form action="{{ route('tasks.complete', ['task' => $task->id ]) }}" method="POST">
                                         @csrf
-                                        <button type="submit" name="action" value="store_and_index"
+                                        <button type="submit" name="action"
                                             class="w-full text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
                                             {{ $task->is_completed ? '未完了に戻す' : '完了' }}
                                         </button>
                                     </form>
-                                    <button type="submit" name="action" value="store_and_create"
+                                    <button type="submit" name="action"
                                         class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                                         編集
                                     </button>
-                                    <button type="submit" name="action" value="store_and_create"
-                                        class="text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-pink-600 rounded text-lg">
-                                        削除
-                                    </button>
+                                    <form id="delete_{{ $task->id }}" action="{{ route('tasks.destroy', ['task' => $task->id ]) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <a href="#" data-id="{{ $task->id }}" onclick="deletePost(this)"
+                                            class="w-full inline-block text-center text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-pink-600 rounded text-lg">
+                                            削除
+                                        </a>
+                                    </form>
                                 </div>
                             </div>
                             </div>
@@ -115,7 +119,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // フラッシュメッセージを10秒後にフェードアウトし、さらに2秒後に削除する
+    // ----- フラッシュメッセージを10秒後にフェードアウトし、さらに2秒後に削除する
     setTimeout(() => {
         const flashMessage = document.getElementById('flash-message');
         if(flashMessage) {
@@ -123,6 +127,15 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => flashMessage.remove(), 2000); // 2秒後に flashMessage というHTML要素を DOM(画面上)から完全に削除
         }
     }, 10000); // 10秒後にフェード開始
+
+
+    // ----- 確認メッセージ
+    function deletePost(e) {
+        'use strict'
+        if(confirm('本当に削除していいですか？')) {
+            document.getElementById('delete_' + e.dataset.id).submit()
+        }
+    }
 });
 </script>
 </x-app-layout>

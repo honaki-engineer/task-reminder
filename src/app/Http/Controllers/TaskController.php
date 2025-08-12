@@ -144,14 +144,27 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // ----- ユーザー情報取得
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // ----- タスク情報取得
+        $task = $user->tasks()
+            ->findOrFail($id);
+
+        // ----- 削除
+        $task->delete();
+
+        return view('tasks.index');
     }
 
+    // onedayページへ遷移
     public function oneDay()
     {
         return view('tasks.one_day');
     }
 
+    // 完了処理
     public function complete($id)
     {
         // ----- ユーザー情報取得
