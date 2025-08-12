@@ -87,9 +87,9 @@ class TaskController extends Controller
 
         // ----- リダイレクトの分岐
         if($request->action === 'store_and_create') {
-            return redirect()->route('tasks.create')->with('success', 'タスクの登録完了しました。続けて作成可能です。');
+            return to_route('tasks.create')->with('success', 'タスクの登録完了しました。続けて作成可能です。');
         } elseif($request->action === 'store_and_index') {
-            return redirect()->route('tasks.index')->with('success', 'タスクの登録完了しました。');
+            return to_route('tasks.index')->with('success', 'タスクの登録完了しました。');
         }
     }
 
@@ -155,7 +155,7 @@ class TaskController extends Controller
         // ----- 削除
         $task->delete();
 
-        return view('tasks.index');
+        return to_route('tasks.index')->with('success', 'タスクの削除完了しました。');
     }
 
     // onedayページへ遷移

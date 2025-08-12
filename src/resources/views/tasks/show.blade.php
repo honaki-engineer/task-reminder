@@ -101,7 +101,7 @@
                                     <form id="delete_{{ $task->id }}" action="{{ route('tasks.destroy', ['task' => $task->id ]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="#" data-id="{{ $task->id }}" onclick="deletePost(this)"
+                                        <a href="#" data-id="{{ $task->id }}" onclick="deleteTask(this)"
                                             class="w-full inline-block text-center text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-pink-600 rounded text-lg">
                                             削除
                                         </a>
@@ -130,12 +130,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // ----- 確認メッセージ
-    function deletePost(e) {
+    function deleteTask(e) {
         'use strict'
         if(confirm('本当に削除していいですか？')) {
             document.getElementById('delete_' + e.dataset.id).submit()
         }
     }
+    window.deleteTask = deleteTask; // 関数をグローバルに登録
 });
 </script>
 </x-app-layout>
