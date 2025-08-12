@@ -94,10 +94,12 @@
                                             {{ $task->is_completed ? '未完了に戻す' : '完了' }}
                                         </button>
                                     </form>
-                                    <button type="submit" name="action"
-                                        class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                                        編集
-                                    </button>
+                                    <form action="{{ route('tasks.edit', ['task' => $task->id ]) }}">
+                                        <button type="submit"
+                                            class="w-full text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                            編集
+                                        </button>
+                                    </form>
                                     <form id="delete_{{ $task->id }}" action="{{ route('tasks.destroy', ['task' => $task->id ]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')

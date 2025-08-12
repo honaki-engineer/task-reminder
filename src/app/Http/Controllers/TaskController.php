@@ -121,7 +121,19 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        // ----- ユーザー情報取得
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // ----- タスク情報取得
+        $task = $user->tasks()
+            ->with('taskCategory')  
+            ->findOrFail($id);
+
+        // フォーカスマトリックス情報取得
+        $taskCategories = TaskCategory::get();
+
+        return view('tasks.edit', compact('task', 'taskCategories'));
     }
 
     /**
