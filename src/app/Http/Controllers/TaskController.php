@@ -101,7 +101,14 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //
+        // ----- ユーザー情報取得
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // ----- タスク情報取得
+        $task = $user->tasks()->findOrFail($id);
+
+        return view('tasks.show', compact('task'));
     }
 
     /**

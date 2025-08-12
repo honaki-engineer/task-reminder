@@ -45,16 +45,19 @@
                                         <ul class="panel--{{ $slug }} text-xs p-3 flex-1 overflow-y-scroll">
                                             @forelse($list as $task)
                                                 <li @class(['py-1', 'opacity-50' => $task->is_completed])>
-                                                    <div class="flex items-start gap-2">
-                                                        <input type="checkbox" class="rounded shrink-0 cursor-not-allowed" @checked($task->is_completed)  disabled>
-                                                        <span class="text-sm text-gray-800 leading-tight break-words">
-                                                            {{ $task->title }}
-                                                            @if(!empty($task->description))
-                                                                <span class="ml-1 align-text-top text-xs text-gray-500">💬</span>
-                                                            @endif
-                                                        </span>
-                                                    </div>
-                                                    <div class="pl-6 text-xs text-gray-500">{{ $task->end_at->format('Y/m/d H:i') }}</div>
+                                                    <a href="{{ route('tasks.show', ['task' => $task->id]) }}"
+                                                        class="block transition-all duration-200 rounded hover:shadow-lg hover:-translate-y-0.5">
+                                                        <div class="flex items-start gap-2">
+                                                            <input type="checkbox" class="rounded shrink-0 cursor-not-allowed" @checked($task->is_completed)  disabled>
+                                                            <span class="text-sm text-gray-800 leading-tight break-words">
+                                                                {{ $task->title }}
+                                                                @if(!empty($task->description))
+                                                                    <span class="ml-1 align-text-top text-xs text-gray-500">💬</span>
+                                                                @endif
+                                                            </span>
+                                                        </div>
+                                                        <div class="pl-6 text-xs text-gray-500">{{ $task->end_at->format('Y/m/d H:i') }}</div>
+                                                    </a>
                                                 </li>
                                             @empty
                                                 <li class="text-sm text-gray-400 italic">項目はありません</li>
