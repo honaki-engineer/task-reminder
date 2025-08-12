@@ -42,11 +42,11 @@
                                             </div>
                                         </div>
                                         {{-- 本体リスト --}}
-                                        <ul class="panel--{{ $slug }} p-3 flex-1 overflow-y-auto{ -webkit-overflow-scrolling: touch; } overflow-y-scroll">
+                                        <ul class="panel--{{ $slug }} text-xs p-3 flex-1 overflow-y-scroll">
                                             @forelse($list as $task)
-                                                <li class="py-1">
+                                                <li @class(['py-1', 'opacity-50' => $task->is_completed])>
                                                     <div class="flex items-start gap-2">
-                                                        <input type="checkbox" class="rounded shrink-0">
+                                                        <input type="checkbox" class="rounded shrink-0 cursor-not-allowed" @checked($task->is_completed)  disabled>
                                                         <span class="text-sm text-gray-800 leading-tight break-words">
                                                             {{ $task->title }}
                                                             @if(!empty($task->description))
