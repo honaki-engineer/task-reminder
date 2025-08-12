@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $task->title }}
+            タスク詳細
         </h2>
     </x-slot>
 
@@ -24,47 +24,72 @@
                             @endif
 
                             <div class="flex flex-wrap -m-2">
+                                {{-- タイトル --}}
+                                <div class="p-2 w-full">
+                                    <div class="relative">
+                                        <label for="title" class="leading-7 text-sm text-gray-600">タスク</label>
+                                        <div class="w-full rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            {{ $task->title }}
+                                        </div>
+                                    </div>
+                                </div>
                                 {{-- 詳細 --}}
                                 <div class="p-2 w-full">
                                     <div class="relative">
                                         <label for="description" class="leading-7 text-sm text-gray-600">詳細</label>
-                                        <textarea id="description" name="description" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-y leading-6 transition-colors duration-200 ease-in-out cursor-pointer"></textarea>
+                                        <div class="w-full rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200  min-h-32 max-h-96 text-base outline-none text-gray-700 py-1 px-3 resize-y leading-6 transition-colors duration-200 ease-in-out overflow-y-scroll">
+                                            {{-- {{ $task->description }} --}}
+                                            {!! nl2br(e($task->description)) !!}
+                                        </div>
                                     </div>
                                 </div>
                                 {{-- フォーカスマトリックス --}}
                                 <div class="p-2 w-full">
-                                <div class="relative">
-                                    <label for="task_category" class="leading-7 text-sm text-gray-600">フォーカスマトリックス</label>
-                                    <select name="task_category" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
-                                    </select>
-                                </div>
+                                    <div class="relative">
+                                        <label for="task_category" class="leading-7 text-sm text-gray-600">フォーカスマトリックス</label>
+                                        <div class="w-full rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            {{ $task->taskCategory->name }}
+                                        </div>
+                                    </div>
                                 </div>
                                 {{-- 開始日時 --}}
                                 <div class="p-2 w-full">
                                 <fieldset class="relative flex gap-2">
                                     <legend class="leading-7 text-sm text-gray-600 block">開始日時</legend>
-                                    <input type="date" id="start_date" name="start_date" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
-                                    <input type="time" id="start_time" name="start_time" value="{{ old('start_time', '00:00') }}" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
+                                    <div class="w-full rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                        {{ $task->start_at->format('Y/m/d') }}
+                                    </div>
+                                    <div class="w-full rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                        {{ $task->start_at->format('H:i') }}
+                                    </div>
                                 </fieldset>
                                 </div>
                                 {{-- 締切日時 --}}
                                 <div class="p-2 w-full">
                                 <fieldset class="relative flex gap-2">
                                     <legend class="leading-7 text-sm text-gray-600 block">締切日</legend>
-                                    <input type="date" id="end_date" name="end_date" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
-                                    <input type="time" id="end_time" name="end_time" value="{{ old('end_time', '23:59') }}" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
+                                    <div class="w-full rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                        {{ $task->end_at->format('Y/m/d') }}
+                                    </div>
+                                    <div class="w-full rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                        {{ $task->end_at->format('H:i') }}
+                                    </div>
                                 </fieldset>
                                 </div>
 
                                 {{-- ボタンエリア --}}
                                 <div class="w-full p-2 flex flex-col sm:flex-row gap-4 justify-center">
                                     <button type="submit" name="action" value="store_and_index"
-                                        class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                                        登録して終了
+                                        class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
+                                        完了
                                     </button>
                                     <button type="submit" name="action" value="store_and_create"
-                                        class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
-                                        登録して続けて入力
+                                        class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                        編集
+                                    </button>
+                                    <button type="submit" name="action" value="store_and_create"
+                                        class="text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-pink-600 rounded text-lg">
+                                        削除
                                     </button>
                                 </div>
                             </div>

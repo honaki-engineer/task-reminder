@@ -106,7 +106,9 @@ class TaskController extends Controller
         $user = Auth::user();
 
         // ----- タスク情報取得
-        $task = $user->tasks()->findOrFail($id);
+        $task = $user->tasks()
+            ->with('taskCategory')  
+            ->findOrFail($id);
 
         return view('tasks.show', compact('task'));
     }
