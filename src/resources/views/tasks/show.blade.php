@@ -79,10 +79,14 @@
 
                                 {{-- ボタンエリア --}}
                                 <div class="w-full p-2 flex flex-col sm:flex-row gap-4 justify-center">
-                                    <button type="submit" name="action" value="store_and_index"
-                                        class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
-                                        完了
-                                    </button>
+                                    {{-- 完了 --}}
+                                    <form action="{{ route('tasks.complete', ['task' => $task->id ]) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" name="action" value="store_and_index"
+                                            class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
+                                            {{ $task->is_completed ? '未完了に戻す' : '完了' }}
+                                        </button>
+                                    </form>
                                     <button type="submit" name="action" value="store_and_create"
                                         class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                                         編集

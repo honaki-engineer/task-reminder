@@ -25,6 +25,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/tasks/one-day', [TaskController::class, 'oneDay'])->name('tasks.one_day');
+    Route::post('/tasks/{task}', [TaskController::class, 'complete'])->name('tasks.complete');
     Route::resource('tasks', TaskController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

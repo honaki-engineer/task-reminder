@@ -151,4 +151,23 @@ class TaskController extends Controller
     {
         return view('tasks.one_day');
     }
+
+    public function complete($id)
+    {
+        // ----- ユーザー情報取得
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // ----- タスク情報取得
+        $task = $user->tasks()
+            ->with('taskCategory')  
+            ->findOrFail($id);
+
+        // ----- 完了処理
+        $task->update([
+            'is_completed' => !$task->is_completed
+        ]);
+
+        return to_route('tasks.show', ['task' => $task->id]);
+    }
 }
