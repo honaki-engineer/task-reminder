@@ -211,7 +211,25 @@ class TaskController extends Controller
     // onedayページへ遷移
     public function oneDay()
     {
-        return view('tasks.one_day');
+        // ----- ユーザー情報
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // ----- フォーカスマトリックス情報
+        $taskCategories = TaskCategory::orderBy('id')->get();
+
+        // ----- タスク情報
+        $tasksByCategory = $user->tasks()
+            ->whereDate('start_at', '<=', Carbon::today()) // 開始日が今日以前
+            ->orderBy('end_at')
+            ->get()
+            ->groupBy(fn($t) => (int) $t->task_category_id);
+
+        //  ----本日の年月日を取得
+        Carbon::setLocale('ja'); // 日本語ロケール
+        $now = Carbon::now()->translatedFormat('Y年n月j日(D)');
+
+        return view('tasks.one_day', compact('taskCategories','tasksByCategory', 'now'));
     }
 
     // 完了処理
