@@ -145,7 +145,45 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        // ----- ユーザー情報取得
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // ----- 時間
+        // フォームの date + time を結合
+        $startAt = Carbon::parse(
+            $request->start_date.' '.($request->start_time),
+        );
+
+        $endAt = Carbon::parse(
+            $request->end_date.' '.($request->end_time),
+        );
+
+        // 締切が開始より前ならエラー（after_or_equal相当）
+        if($endAt->lt($startAt)) {
+            return back()
+                ->withErrors(['end_date' => '締切は開始以降にしてください。'])
+                ->withInput();
+        }
+
+        // ----- タスク情報取得
+        $task = $user->tasks()
+            ->findOrFail($id);
+
+        // ----- 保存
+        $task->update([
+            'user_id' => $user->id,
+            'task_category_id' => $request->task_category,
+            'title' => $request->title,
+            'description' => $request->description,
+            'start_at' => $startAt,
+            'end_at' => $endAt,
+            'is_completed' => $task->is_completed,
+        ]);
+
+        // ----- リダイレクトの分岐
+        return to_route('tasks.show', ['task' => $task->id])->with('success', 'タスクの更新完了しました。');
     }
 
     /**
