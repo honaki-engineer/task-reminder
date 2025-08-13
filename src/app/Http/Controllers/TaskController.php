@@ -7,6 +7,7 @@ use App\Models\TaskCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class TaskController extends Controller
 {
@@ -99,7 +100,7 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         // ----- ユーザー情報取得
         /** @var \App\Models\User $user */
@@ -110,7 +111,16 @@ class TaskController extends Controller
             ->with('taskCategory')  
             ->findOrFail($id);
 
-        return view('tasks.show', compact('task'));
+        // ----- 外部URLを弾く処理
+        $defaultUrl = route('tasks.index');
+        $backUrl = $request->query('back_url', $defaultUrl);
+
+        // 外部URLブロック
+        if(!Str::startsWith($backUrl, config('app.url'))) {
+            $backUrl = $defaultUrl;
+        }
+
+        return view('tasks.show', compact('task', 'backUrl'));
     }
 
     /**
@@ -119,7 +129,7 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         // ----- ユーザー情報取得
         /** @var \App\Models\User $user */
@@ -130,10 +140,22 @@ class TaskController extends Controller
             ->with('taskCategory')  
             ->findOrFail($id);
 
-        // フォーカスマトリックス情報取得
+        // ----- フォーカスマトリックス情報取得
         $taskCategories = TaskCategory::get();
 
-        return view('tasks.edit', compact('task', 'taskCategories'));
+        // ---- one-day or index への戻るボタン
+        $defaultUrl = route('tasks.index');
+        $backUrl = $request->query('back_url', $defaultUrl);
+
+        // 外部URLブロック
+        if(!Str::startsWith($backUrl, config('app.url'))) {
+            $backUrl = $defaultUrl;
+        }
+
+        // ----- showへ戻る専用URL(一覧URLを持ち回り)
+        $showUrl = route('tasks.show', ['task' => $task->id, 'back_url' => $backUrl]);
+
+        return view('tasks.edit', compact('task', 'taskCategories', 'backUrl', 'showUrl'));
     }
 
     /**
@@ -155,7 +177,6 @@ class TaskController extends Controller
         $startAt = Carbon::parse(
             $request->start_date.' '.($request->start_time),
         );
-
         $endAt = Carbon::parse(
             $request->end_date.' '.($request->end_time),
         );
@@ -182,8 +203,11 @@ class TaskController extends Controller
             'is_completed' => $task->is_completed,
         ]);
 
-        // ----- リダイレクトの分岐
-        return to_route('tasks.show', ['task' => $task->id])->with('success', 'タスクの更新完了しました。');
+        // ----one-day or index への戻るボタン
+        $backUrl = $request->back_url;
+
+        // ----- リダイレクト
+        return to_route('tasks.show', ['task' => $task->id, 'back_url' => $backUrl])->with('success', 'タスクの更新完了しました。');
     }
 
     /**
@@ -233,7 +257,7 @@ class TaskController extends Controller
     }
 
     // 完了処理
-    public function complete($id)
+    public function complete(Request $request, $id)
     {
         // ----- ユーザー情報取得
         /** @var \App\Models\User $user */
@@ -249,6 +273,9 @@ class TaskController extends Controller
             'is_completed' => !$task->is_completed
         ]);
 
-        return to_route('tasks.show', ['task' => $task->id]);
+        // ---- one-day or index への戻るボタン
+        $backUrl = $request->back_url;
+
+        return to_route('tasks.show', ['task' => $task->id, 'back_url' => $backUrl]);
     }
 }

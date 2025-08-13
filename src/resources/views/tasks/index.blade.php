@@ -45,7 +45,7 @@
                                         <ul class="panel--{{ $slug }} text-xs p-3 flex-1 overflow-y-scroll">
                                             @forelse($list as $task)
                                                 <li @class(['py-1', 'opacity-50' => $task->is_completed])>
-                                                    <a href="{{ route('tasks.show', ['task' => $task->id]) }}"
+                                                    <a href="{{ route('tasks.show', ['task' => $task->id, 'back_url' => url()->full()]) }}"
                                                         class="block transition-all duration-200 rounded hover:shadow-lg hover:-translate-y-0.5">
                                                         <div class="flex items-start gap-2">
                                                             <input type="checkbox" class="rounded shrink-0 cursor-not-allowed" @checked($task->is_completed)  disabled>

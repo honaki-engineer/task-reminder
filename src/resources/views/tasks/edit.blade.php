@@ -9,15 +9,20 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    <a href="{{ $showUrl }}" class="px-4 py-2 rounded bg-gray-100 hover:bg-gray-200 transition-all duration-150 shadow-sm hover:shadow">
+                        ← 詳細へ戻る
+                    </a>
 
-                    <section class="text-gray-600 body-font relative">
+                    <section class="text-gray-600 body-font relative mt-4">
                     <form action="{{ route('tasks.update', ['task' => $task->id]) }}" method="POST">
                         @csrf
                         @method('PUT')
+                        <input type="hidden" name="back_url" value="{{ $backUrl ?? request('back_url') }}">
 
                         <div class="container px-5 mx-auto">
                             <div class="lg:w-1/2 md:w-2/3 mx-auto">
-                                <div class="flex flex-wrap -m-2">
+                                
+                                <div class="flex flex-wrap m-2">
                                     {{-- 必須のcss設定 --}}
                                     @php
                                         $badgeReq = 'ml-2 items-center rounded px-1 py-0.5
