@@ -69,7 +69,7 @@
                                     {{-- 締切日時 --}}
                                     <div class="p-2 w-full">
                                         <fieldset class="relative flex gap-2">
-                                            <legend class="leading-7 text-sm text-gray-600 block">締切日<span class="{{ $badgeReq }}">必須</span></legend>
+                                            <legend class="leading-7 text-sm text-gray-600 block">締切日時<span class="{{ $badgeReq }}">必須</span></legend>
                                             <input type="date" id="end_date" name="end_date" value="{{ $task->end_at->format('Y-m-d') }}" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
                                             <input type="time" id="end_time" name="end_time" value="{{ $task->end_at->format('H:i') }}" value="{{ old('end_time', '23:59') }}" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
                                         </fieldset>

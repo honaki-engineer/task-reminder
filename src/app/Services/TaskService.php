@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Task;
 use App\Models\TaskCategory;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -29,34 +28,16 @@ class TaskService
     }     
 
 
-    // ----- index - update ---------------------------------------------------------------------------------------------------
-    // ----- フォームの date + time を結合
-    public static function combineStartDateTime($request) {
-        $startAt = Carbon::parse(
-            $request->start_date.' '.($request->start_time),
-        );
-
-        return $startAt;
-    }
-    public static function combineEndDateTime($request) {
-        $endAt = Carbon::parse(
-            $request->end_date.' '.($request->end_time),
-        );
-
-        return $endAt;
-    }
-
-
     // ----- store ---------------------------------------------------------------------------------------------------
     // ----- 保存
-    public static function storeTask($user, $request, $startAt, $endAt) {
+    public static function storeTask($user, $request) {
         Task::create([
             'user_id' => $user->id,
             'task_category_id' => $request->task_category,
             'title' => $request->title,
             'description' => $request->description,
-            'start_at' => $startAt,
-            'end_at' => $endAt,
+            'start_at' => $request->start_at, // TaskRequestで結合済み
+            'end_at' => $request->end_at, // TaskRequestで結合済み
             'is_completed' => false,
         ]);
     }
@@ -114,14 +95,14 @@ class TaskService
 
     // ----- update ------------------------------------------------------------------------------------------------
     // ----- 保存
-    public static function updateTask($task, $user, $request, $startAt, $endAt) {
+    public static function updateTask($task, $user, $request) {
         $task->update([
             'user_id' => $user->id,
             'task_category_id' => $request->task_category,
             'title' => $request->title,
             'description' => $request->description,
-            'start_at' => $startAt,
-            'end_at' => $endAt,
+            'start_at' => $request->start_at, // TaskRequestで結合済み
+            'end_at' => $request->end_at, // TaskRequestで結合済み
             'is_completed' => $task->is_completed,
         ]);
     }

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\TaskCategory;
+use App\Http\Requests\TaskRequest;
 use App\Services\TaskService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 
 class TaskController extends Controller
 {
@@ -50,25 +50,13 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
         // ----- ユーザー情報
         $user = TaskService::getUser();
-        
-        // ----- 時間
-        // フォームの date + time を結合
-        $startAt = TaskService::combineStartDateTime($request);
-        $endAt = TaskService::combineEndDateTime($request);
-
-        // 締切が開始より前ならエラー（after_or_equal相当）
-        if($endAt->lt($startAt)) {
-            return back()
-                ->withErrors(['end_date' => '締切は開始以降にしてください。'])
-                ->withInput();
-        }
 
         // ----- 保存
-        TaskService::storeTask($user, $request, $startAt, $endAt);
+        TaskService::storeTask($user, $request);
 
         // ----- リダイレクトの分岐
         if($request->action === 'store_and_create') {
@@ -131,28 +119,16 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TaskRequest $request, $id)
     {
         // ----- ユーザー情報
         $user = TaskService::getUser();
-
-        // ----- 時間
-        // フォームの date + time を結合
-        $startAt = TaskService::combineStartDateTime($request);
-        $endAt = TaskService::combineEndDateTime($request);
-        
-        // 締切が開始より前ならエラー（after_or_equal相当）
-        if($endAt->lt($startAt)) {
-            return back()
-            ->withErrors(['end_date' => '締切は開始以降にしてください。'])
-            ->withInput();
-        }
         
         // ----- タスク情報取得
         $task = TaskService::getTask($user, $id);
         
         // ----- 保存
-        TaskService::updateTask($task, $user, $request, $startAt, $endAt);
+        TaskService::updateTask($task, $user, $request);
 
         // ----- 外部URLならデフォルトに置き換えて、安全なback_urlを返す関数(input)
         $backUrl = TaskService::getSafeBackUrlFromInput($request);
