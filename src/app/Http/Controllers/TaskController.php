@@ -6,6 +6,7 @@ use App\Models\TaskCategory;
 use App\Services\TaskService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class TaskController extends Controller
 {
@@ -88,11 +89,11 @@ class TaskController extends Controller
         // ----- ユーザー情報
         $user = TaskService::getUser();
         
-        // ----- タスク情報取得
+        // ----- タスク情報取得withフォーカスマトリックス
         $task = TaskService::findTaskWithTaskCategory($user, $id);
 
-        // ---- 外部URLを弾く処理
-        $backUrl = TaskService::getSafeBackUrl($request);
+        // ---- 外部URLならデフォルトに置き換えて、安全なback_urlを返す関数(query)
+        $backUrl = TaskService::getSafeBackUrlFromQuery($request);
 
         return view('tasks.show', compact('task', 'backUrl'));
     }
@@ -108,14 +109,14 @@ class TaskController extends Controller
         // ----- ユーザー情報
         $user = TaskService::getUser();
 
-        // ----- タスク情報取得
+        // ----- タスク情報取得withフォーカスマトリックス
         $task = TaskService::findTaskWithTaskCategory($user, $id);
 
         // ----- フォーカスマトリックス情報取得
         $taskCategories = TaskService::getTaskCategories();
         
-        // ---- one-day or index への戻るボタン & 外部URLを弾く処理
-        $backUrl = TaskService::getSafeBackUrl($request);
+        // ---- 外部URLならデフォルトに置き換えて、安全なback_urlを返す関数(query)
+        $backUrl = TaskService::getSafeBackUrlFromQuery($request);
         
         // ----- showへ戻る専用URL(一覧URLを持ち回り)
         $showUrl = route('tasks.show', ['task' => $task->id, 'back_url' => $backUrl]);
@@ -153,8 +154,8 @@ class TaskController extends Controller
         // ----- 保存
         TaskService::updateTask($task, $user, $request, $startAt, $endAt);
 
-        // ----one-day or index への戻るボタン
-        $backUrl = $request->back_url;
+        // ----- 外部URLならデフォルトに置き換えて、安全なback_urlを返す関数(input)
+        $backUrl = TaskService::getSafeBackUrlFromInput($request);
 
         // ----- リダイレクト
         return to_route('tasks.show', ['task' => $task->id, 'back_url' => $backUrl])->with('success', 'タスクの更新完了しました。');
@@ -166,7 +167,7 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         // ----- ユーザー情報
         $user = TaskService::getUser();
@@ -177,15 +178,10 @@ class TaskController extends Controller
         // ----- 削除
         $task->delete();
 
-        return to_route('tasks.index')->with('success', 'タスクの削除完了しました。');
+        // ----- 外部URLならデフォルトに置き換えて、安全なback_urlを返す関数(input)
+        $backUrl = TaskService::getSafeBackUrlFromInput($request);
 
-
-                // ---- one-day or index への戻るボタン
-        $backUrl = $request->back_url;
-
-        return to_route('tasks.show', ['task' => $task->id, 'back_url' => $backUrl]);
-
-                // ----- リダイレクトの分岐
+        return redirect($backUrl)->with('success', 'タスクの削除完了しました。');
     }
 
     // onedayページへ遷移
@@ -193,8 +189,7 @@ class TaskController extends Controller
     {
         // ----- ユーザー情報
         $user = TaskService::getUser();
-        
-        $user = TaskService::getUser();
+
         // ----- フォーカスマトリックス情報
         $taskCategories = TaskCategory::orderBy('id')->get();
 
@@ -219,15 +214,15 @@ class TaskController extends Controller
         $user = TaskService::getUser();
 
         // ----- タスク情報取得
-        $task = TaskService::findTaskWithTaskCategory($user, $id);
+        $task = TaskService::getTask($user, $id);
 
         // ----- 完了処理
         $task->update([
             'is_completed' => !$task->is_completed
         ]);
 
-        // ---- one-day or index への戻るボタン
-        $backUrl = $request->back_url;
+        // ----- 外部URLならデフォルトに置き換えて、安全なback_urlを返す関数(input)
+        $backUrl = TaskService::getSafeBackUrlFromInput($request);
 
         return to_route('tasks.show', ['task' => $task->id, 'back_url' => $backUrl]);
     }

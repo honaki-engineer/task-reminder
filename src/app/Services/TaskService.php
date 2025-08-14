@@ -10,7 +10,8 @@ use Illuminate\Support\Str;
 
 class TaskService
 {
-    // ユーザー情報取得
+    // ----- index - store - show - edit - update - destroy - oneDay - complete -----------------------------------------------------
+    // ----- ユーザー情報
     public static function getUser() {
         /** @var \App\Models\User $user */
         $user = Auth::user();
@@ -19,14 +20,17 @@ class TaskService
     }
 
 
-    // フォーカスマトリックス情報
+    // ----- index - edit ---------------------------------------------------------------------------------------------------
+    // ----- フォーカスマトリックス情報
     public static function getTaskCategories() {
         $taskCategories = TaskCategory::orderBy('id')->get();
 
         return $taskCategories;
     }     
 
-    // フォームの date + time を結合
+
+    // ----- index - update ---------------------------------------------------------------------------------------------------
+    // ----- フォームの date + time を結合
     public static function combineStartDateTime($request) {
         $startAt = Carbon::parse(
             $request->start_date.' '.($request->start_time),
@@ -43,6 +47,7 @@ class TaskService
     }
 
 
+    // ----- store ---------------------------------------------------------------------------------------------------
     // ----- 保存
     public static function storeTask($user, $request, $startAt, $endAt) {
         Task::create([
@@ -57,7 +62,8 @@ class TaskService
     }
     
 
-    // ----- タスク情報取得
+    // ----- show - edit -------------------------------------------------------------------------------------------------
+    // ----- タスク情報取得withフォーカスマトリックス
     public static function findTaskWithTaskCategory($user, $id) {
         $task = $user->tasks()
             ->with('taskCategory')  
@@ -67,8 +73,8 @@ class TaskService
     }  
 
 
-    // ---- one-day or index への戻るボタン
-    public static function getSafeBackUrl($request) {
+    // ---- 外部URLならデフォルトに置き換えて、安全なback_urlを返す関数(query)
+    public static function getSafeBackUrlFromQuery($request) {
         $defaultUrl = route('tasks.index');
         $backUrl = $request->query('back_url', $defaultUrl);
 
@@ -79,15 +85,34 @@ class TaskService
 
         return $backUrl;
     }
+    
 
+    // ----- update - destroy - complete ------------------------------------------------------------------------------------------------
+    // ---- 外部URLならデフォルトに置き換えて、安全なback_urlを返す関数(query)
+    public static function getSafeBackUrlFromInput($request) {
+        $defaultUrl = route('tasks.index');
+        $backUrl = $request->input('back_url', $defaultUrl);
+
+        // 外部URLブロック
+        if(!Str::startsWith($backUrl, config('app.url'))) {
+            $backUrl = $defaultUrl;
+        }
+
+        return $backUrl;
+    }
+
+
+
+    // ----- update - destroy - complete ------------------------------------------------------------------------------------------------
     // ----- タスク情報取得
     public static function getTask($user, $id) {
-        $task = $user->tasks()
-            ->findOrFail($id);
+        $task = $user->tasks()->findOrFail($id);
 
         return $task;
     }
 
+
+    // ----- update ------------------------------------------------------------------------------------------------
     // ----- 保存
     public static function updateTask($task, $user, $request, $startAt, $endAt) {
         $task->update([
