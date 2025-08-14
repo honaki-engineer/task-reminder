@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
 use App\Models\TaskCategory;
+use App\Services\TaskService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class TaskController extends Controller
 {
@@ -19,11 +17,10 @@ class TaskController extends Controller
     public function index()
     {
         // ----- ユーザー情報
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
+        $user = TaskService::getUser();
+        
         // ----- フォーカスマトリックス情報
-        $taskCategories = TaskCategory::orderBy('id')->get();
+        $taskCategories = TaskService::getTaskCategories();
 
         // ----- タスク情報
         $tasksByCategory = $user->tasks()
@@ -54,19 +51,13 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        // ----- ユーザー情報取得
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
+        // ----- ユーザー情報
+        $user = TaskService::getUser();
+        
         // ----- 時間
         // フォームの date + time を結合
-        $startAt = Carbon::parse(
-            $request->start_date.' '.($request->start_time),
-        );
-
-        $endAt = Carbon::parse(
-            $request->end_date.' '.($request->end_time),
-        );
+        $startAt = TaskService::combineStartDateTime($request);
+        $endAt = TaskService::combineEndDateTime($request);
 
         // 締切が開始より前ならエラー（after_or_equal相当）
         if($endAt->lt($startAt)) {
@@ -76,15 +67,7 @@ class TaskController extends Controller
         }
 
         // ----- 保存
-        Task::create([
-            'user_id' => $user->id,
-            'task_category_id' => $request->task_category,
-            'title' => $request->title,
-            'description' => $request->description,
-            'start_at' => $startAt,
-            'end_at' => $endAt,
-            'is_completed' => false,
-        ]);
+        TaskService::storeTask($user, $request, $startAt, $endAt);
 
         // ----- リダイレクトの分岐
         if($request->action === 'store_and_create') {
@@ -102,23 +85,14 @@ class TaskController extends Controller
      */
     public function show(Request $request, $id)
     {
-        // ----- ユーザー情報取得
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
+        // ----- ユーザー情報
+        $user = TaskService::getUser();
+        
         // ----- タスク情報取得
-        $task = $user->tasks()
-            ->with('taskCategory')  
-            ->findOrFail($id);
+        $task = TaskService::findTaskWithTaskCategory($user, $id);
 
-        // ----- 外部URLを弾く処理
-        $defaultUrl = route('tasks.index');
-        $backUrl = $request->query('back_url', $defaultUrl);
-
-        // 外部URLブロック
-        if(!Str::startsWith($backUrl, config('app.url'))) {
-            $backUrl = $defaultUrl;
-        }
+        // ---- 外部URLを弾く処理
+        $backUrl = TaskService::getSafeBackUrl($request);
 
         return view('tasks.show', compact('task', 'backUrl'));
     }
@@ -131,27 +105,18 @@ class TaskController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        // ----- ユーザー情報取得
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
+        // ----- ユーザー情報
+        $user = TaskService::getUser();
 
         // ----- タスク情報取得
-        $task = $user->tasks()
-            ->with('taskCategory')  
-            ->findOrFail($id);
+        $task = TaskService::findTaskWithTaskCategory($user, $id);
 
         // ----- フォーカスマトリックス情報取得
-        $taskCategories = TaskCategory::get();
-
-        // ---- one-day or index への戻るボタン
-        $defaultUrl = route('tasks.index');
-        $backUrl = $request->query('back_url', $defaultUrl);
-
-        // 外部URLブロック
-        if(!Str::startsWith($backUrl, config('app.url'))) {
-            $backUrl = $defaultUrl;
-        }
-
+        $taskCategories = TaskService::getTaskCategories();
+        
+        // ---- one-day or index への戻るボタン & 外部URLを弾く処理
+        $backUrl = TaskService::getSafeBackUrl($request);
+        
         // ----- showへ戻る専用URL(一覧URLを持ち回り)
         $showUrl = route('tasks.show', ['task' => $task->id, 'back_url' => $backUrl]);
 
@@ -167,41 +132,26 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        // ----- ユーザー情報取得
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
+        // ----- ユーザー情報
+        $user = TaskService::getUser();
 
         // ----- 時間
         // フォームの date + time を結合
-        $startAt = Carbon::parse(
-            $request->start_date.' '.($request->start_time),
-        );
-        $endAt = Carbon::parse(
-            $request->end_date.' '.($request->end_time),
-        );
-
+        $startAt = TaskService::combineStartDateTime($request);
+        $endAt = TaskService::combineEndDateTime($request);
+        
         // 締切が開始より前ならエラー（after_or_equal相当）
         if($endAt->lt($startAt)) {
             return back()
-                ->withErrors(['end_date' => '締切は開始以降にしてください。'])
-                ->withInput();
+            ->withErrors(['end_date' => '締切は開始以降にしてください。'])
+            ->withInput();
         }
-
+        
         // ----- タスク情報取得
-        $task = $user->tasks()
-            ->findOrFail($id);
-
+        $task = TaskService::getTask($user, $id);
+        
         // ----- 保存
-        $task->update([
-            'user_id' => $user->id,
-            'task_category_id' => $request->task_category,
-            'title' => $request->title,
-            'description' => $request->description,
-            'start_at' => $startAt,
-            'end_at' => $endAt,
-            'is_completed' => $task->is_completed,
-        ]);
+        TaskService::updateTask($task, $user, $request, $startAt, $endAt);
 
         // ----one-day or index への戻るボタン
         $backUrl = $request->back_url;
@@ -218,27 +168,33 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        // ----- ユーザー情報取得
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
+        // ----- ユーザー情報
+        $user = TaskService::getUser();
+        
         // ----- タスク情報取得
-        $task = $user->tasks()
-            ->findOrFail($id);
+        $task = TaskService::getTask($user, $id);
 
         // ----- 削除
         $task->delete();
 
         return to_route('tasks.index')->with('success', 'タスクの削除完了しました。');
+
+
+                // ---- one-day or index への戻るボタン
+        $backUrl = $request->back_url;
+
+        return to_route('tasks.show', ['task' => $task->id, 'back_url' => $backUrl]);
+
+                // ----- リダイレクトの分岐
     }
 
     // onedayページへ遷移
     public function oneDay()
     {
         // ----- ユーザー情報
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
+        $user = TaskService::getUser();
+        
+        $user = TaskService::getUser();
         // ----- フォーカスマトリックス情報
         $taskCategories = TaskCategory::orderBy('id')->get();
 
@@ -259,14 +215,11 @@ class TaskController extends Controller
     // 完了処理
     public function complete(Request $request, $id)
     {
-        // ----- ユーザー情報取得
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
+        // ----- ユーザー情報
+        $user = TaskService::getUser();
 
         // ----- タスク情報取得
-        $task = $user->tasks()
-            ->with('taskCategory')  
-            ->findOrFail($id);
+        $task = TaskService::findTaskWithTaskCategory($user, $id);
 
         // ----- 完了処理
         $task->update([
