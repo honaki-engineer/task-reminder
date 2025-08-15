@@ -44,8 +44,8 @@ class TaskRequest extends FormRequest
             'end_date' => ['required', 'date'],
             'end_time' => ['required', 'date_format:H:i'],
             // 相関チェック(開始≦締切)
-            'start_at'      => ['required', 'date'],
-            'end_at'        => ['required', 'date', 'after_or_equal:start_at'], // start_at と同じか後の日時であること
+            'start_at' => ['required', 'date'],
+            'end_at' => ['required', 'date', 'after_or_equal:start_at'], // start_at と同じか後の日時であること
         ];
     }
 

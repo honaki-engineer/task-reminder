@@ -161,5 +161,16 @@ return [
         // 新規登録
         'name' => '名前',
         'email' => 'メールアドレス',
+        
+        // tasks.create
+        'title' => 'タスク',
+        'description' => '詳細',
+        'task_category' => 'フォーカスマトリックス',
+        'start_date' => '開始日',
+        'start_time' => '開始時間',
+        'end_date' => '締切日',
+        'end_time' => '締切時間',
+        'start_at' => '開始日時',
+        'end_at' => '締切日時',
     ],
 ];
