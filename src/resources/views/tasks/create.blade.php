@@ -80,7 +80,6 @@
                                         <legend class="leading-7 text-sm text-gray-600 block">締切日時<span class="{{ $badgeReq }}">必須</span></legend>
                                         <input type="date" id="end_date" name="end_date" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
                                         <input type="time" id="end_time" name="end_time" value="{{ old('end_time', '23:59') }}" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
-                                        <br>
                                     </fieldset>
                                     <x-input-error :messages="$errors->get('end_date')" class="mt-2" />
                                     <x-input-error :messages="$errors->get('end_time')" class="mt-2" />
