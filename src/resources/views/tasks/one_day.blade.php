@@ -37,8 +37,14 @@
                                             <div class="font-semibold">{{ $taskCategory->name }}</div>
                                             <div class="flex items-center gap-2">
                                                 <span class="text-xs bg-white/30 rounded-full px-2 py-0.5">{{ $list->count() }}</span>
-                                                <a href="{{ route('tasks.create') }}"
-                                                    class="w-6 h-6 rounded-full bg-white/40 grid place-items-center hover:bg-white/70">＋</a>
+                                                <a href="{{ route('tasks.create') }}" class="w-6 h-6 rounded-full bg-white/40 flex items-center justify-center hover:bg-white/70">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                            class="w-4 h-4">
+                                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                    </svg>
+                                                </a>
                                             </div>
                                         </div>
                                         {{-- 本体リスト --}}
