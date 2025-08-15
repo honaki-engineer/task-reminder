@@ -37,7 +37,7 @@
                                 <div class="p-2 w-full">
                                 <div class="relative">
                                     <label for="title" class="leading-7 text-sm text-gray-600">タスク<span class="{{ $badgeReq }}">必須</span></label>
-                                    <input type="text" id="title" name="title" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
+                                    <input type="text" id="title" name="title" value="{{ old('title') }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
                                     <x-input-error :messages="$errors->get('title')" class="mt-2" />
                                 </div>
                                 </div>
@@ -47,7 +47,7 @@
                                         <label for="description" class="leading-7 text-sm text-gray-600">詳細</label>
                                         <textarea id="description" name="description" 
                                             class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 min-h-32 max-h-96 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-y leading-6 transition-colors duration-200 ease-in-out cursor-pointer"
-                                            oninput="autoResize(this)"></textarea>
+                                            oninput="autoResize(this)">{{ old('description') }}</textarea>
                                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
                                     </div>
                                 </div>
@@ -58,7 +58,7 @@
                                     <select name="task_category" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
                                         <option value="">--- 選択してください ---</option>
                                         @foreach($taskCategories as $taskCategory)
-                                            <option value="{{ $taskCategory->id }}">{{ $taskCategory->name }}</option>
+                                            <option value="{{ $taskCategory->id }}" {{ old('task_category') == $taskCategory->id ? 'selected' : '' }}>{{ $taskCategory->name }}</option>
                                         @endforeach
                                     </select>
                                     <x-input-error :messages="$errors->get('task_category')" class="mt-2" />
@@ -68,7 +68,7 @@
                                 <div class="p-2 w-full">
                                     <fieldset class="relative flex gap-2">
                                         <legend class="leading-7 text-sm text-gray-600 block">開始日時<span class="{{ $badgeReq }}">必須</span></legend>
-                                        <input type="date" id="start_date" name="start_date" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
+                                        <input type="date" id="start_date" name="start_date" value="{{ old('start_date') }}" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
                                         <input type="time" id="start_time" name="start_time" value="{{ old('start_time', '00:00') }}" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
                                     </fieldset>
                                     <x-input-error :messages="$errors->get('start_date')" class="mt-2" />
@@ -78,7 +78,7 @@
                                 <div class="p-2 w-full">
                                     <fieldset class="relative flex gap-2">
                                         <legend class="leading-7 text-sm text-gray-600 block">締切日時<span class="{{ $badgeReq }}">必須</span></legend>
-                                        <input type="date" id="end_date" name="end_date" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
+                                        <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
                                         <input type="time" id="end_time" name="end_time" value="{{ old('end_time', '23:59') }}" class="picker-input w-1/2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer" required>
                                     </fieldset>
                                     <x-input-error :messages="$errors->get('end_date')" class="mt-2" />
