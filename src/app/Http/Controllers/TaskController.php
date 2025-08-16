@@ -15,16 +15,22 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // dd($request->search);
+
         // ----- ユーザー情報
         $user = TaskService::getUser();
         
         // ----- フォーカスマトリックス情報
         $taskCategories = TaskService::getTaskCategories();
 
+        // ----- 検索情報
+        $search = $request->search;
+
         // ----- タスク情報
         $tasksByCategory = $user->tasks()
+            ->search($search)
             ->orderBy('end_at')
             ->get()
             ->groupBy(fn($t) => (int) $t->task_category_id);

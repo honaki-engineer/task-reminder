@@ -36,4 +36,20 @@ class Task extends Model
         'end_at'   => 'datetime',
         'is_completed' => 'boolean',
     ];
+
+    // 検索
+    public function scopeSearch($query, $search)
+    {
+        if($search !== null){
+            $normalizedSearch = mb_convert_kana($search, 's'); // 全角スペースを半角
+            $keywords = preg_split('/[\s]+/', $normalizedSearch); //空白で区切る
+
+            foreach($keywords as $value){
+                $query->where('title', 'like', '%' .$value. '%')
+                  ->orWhere('description', 'like', '%' . $value . '%'); 
+            }
+        }
+
+        return $query;
+    }
 }
