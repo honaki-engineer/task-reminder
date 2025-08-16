@@ -16,6 +16,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+            
+        $schedule->command('tasks:delete-old-completed')->dailyAt('03:00'); // 毎日夜中の3時に実行
+        // $schedule->command('tasks:delete-old-completed')->everyMinute(); // 毎分テスト用
     }
 
     /**
