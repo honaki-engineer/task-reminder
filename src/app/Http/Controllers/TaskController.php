@@ -17,8 +17,6 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request->search);
-
         // ----- ユーザー情報
         $user = TaskService::getUser();
         
@@ -35,7 +33,7 @@ class TaskController extends Controller
             ->get()
             ->groupBy(fn($t) => (int) $t->task_category_id);
 
-        return view('tasks.index', compact('taskCategories','tasksByCategory'));
+        return view('tasks.index', compact('taskCategories','tasksByCategory', 'search'));
     }
 
     /**
