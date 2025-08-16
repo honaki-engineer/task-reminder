@@ -56,4 +56,10 @@ class User extends Authenticatable
     {
         $this->notify(new CustomResetPassword($token));
     }
+
+    // ゲストログイン
+    public function isGuest()
+    {
+        return $this->email === 'guest@example.com';
+    }
 }
