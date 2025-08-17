@@ -26,7 +26,7 @@
 
                             {{-- ここ --}}
                             <div class="flex flex-col items-center justify-center min-h-[400px] space-y-6">
-                                <a href="#" class="inline-block w-60 text-center py-3 bg-gray-200 rounded border text-lg hover:bg-gray-300">
+                                <a href="{{ route('slack.authorize') }}" class="inline-block w-60 text-center py-3 bg-gray-200 rounded border text-lg hover:bg-gray-300">
                                     ① Slack連携/解除
                                 </a>
                                 <a href="#" class="inline-block w-60 text-center py-3 bg-gray-200 rounded border text-lg hover:bg-gray-300">

@@ -55,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('tasks', TaskController::class);
     
     Route::get('/slacks', [SlackController::class, 'index'])->name('slacks.index');
+    Route::get('/slack/authorize', [SlackController::class, 'redirectToSlack'])->name('slack.authorize');
+    Route::get('/slack/callback',  [SlackController::class, 'handleCallback'])->name('slack.callback');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
