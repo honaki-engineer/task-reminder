@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 // ----- デフォルト使用しない
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
+
+// ----- トップページへ
+Route::get('/', function () { return view('welcome'); })->name('welcome');
 
 // ----- エラー画面の確認テスト
 // 400 Bad Request
