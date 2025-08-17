@@ -104,7 +104,8 @@
                                             @csrf
                                             <input type="hidden" name="back_url" value="{{ $backUrl ?? request('back_url') }}">
                                             <button type="submit" name="action"
-                                                class="w-full text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
+                                                class="w-full text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg"
+                                                onclick="this.disabled=true; this.form.submit();">
                                                 {{ $task->is_completed ? '未完了に戻す' : '完了' }}
                                             </button>
                                         </form>

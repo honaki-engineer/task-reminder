@@ -85,7 +85,8 @@
                                     {{-- ボタンエリア --}}
                                     <div class="w-full p-2 flex flex-col sm:flex-row gap-4 justify-center">
                                         <button type="submit" name="action" value="store_and_index"
-                                            class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                            class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                                            onclick="this.disabled=true; this.form.submit();">
                                             更新
                                         </button>
                                     </div>
