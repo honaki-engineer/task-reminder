@@ -25,10 +25,8 @@
                             {{-- 検索 --}}
                             <form action="{{ route('tasks.index') }}" method="get">
                                 <input type="text" name="search" placeholder="検索" value="{{ $search ?? '' }}"
-                                    class="sm:w-2/3 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer">
-                                <button type="submit" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded">
-                                    検索
-                                </button>
+                                    class="h-10 sm:w-2/3 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer">
+                                <button type="submit" class="h-10 text-white bg-indigo-500 border-0 py-2 px-7 sm:px-8 focus:outline-none hover:bg-indigo-600 rounded">検索</button>
                             </form>
                             {{-- 全体のコンテンツ --}}
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
