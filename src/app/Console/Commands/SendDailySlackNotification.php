@@ -14,7 +14,7 @@ class SendDailySlackNotification extends Command
      *
      * @var string
      */
-    protected $signature = 'send:dailyslack';
+    protected $signature = 'send:daily-slack';
 
     /**
      * The console command description.
