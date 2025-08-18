@@ -7,7 +7,9 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div @class(['bg-white overflow-hidden shadow-sm sm:rounded-lg', 'bg-green-50' => $task->is_completed])>
+            <div @class(['overflow-hidden shadow-sm sm:rounded-lg',
+                        'bg-white' => ! $task->is_completed,
+                        'bg-green-50' => $task->is_completed])>
                 <div class="p-6 text-gray-900">
                 {{-- 戻るボタンの遷移先を取得 --}}
                 @if(Str::contains($backUrl, '/one-day'))
