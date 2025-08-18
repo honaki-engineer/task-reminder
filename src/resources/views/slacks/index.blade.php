@@ -22,19 +22,27 @@
                                     </div>
                                 </div>
                             @endif
-                            
-
-                            {{-- ここ --}}
+                            {{-- Slack連携 --}}
                             <div class="flex flex-col items-center justify-center min-h-[400px] space-y-6">
-                                <a href="{{ route('slack.authorize') }}" class="inline-block w-60 text-center py-3 bg-gray-200 rounded border text-lg hover:bg-gray-300">
+                                {{-- <a href="{{ route('slack.authorize') }}" class="inline-block w-60 text-center py-3 bg-gray-200 rounded border text-lg hover:bg-gray-300">
                                     ① Slack連携/解除
-                                </a>
+                                </a> --}}
+                                @if($slackNotification && $slackNotification->isLinked())
+                                    <form action="{{ route('slack.disconnect') }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        <button class="inline-block w-60 text-center py-3 text-white bg-pink-500 rounded border text-lg hover:bg-pink-600" onclick="return confirm('連携解除しますか？');">
+                                            Slack連携解除
+                                        </button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('slack.authorize') }}" class="inline-block w-60 text-center py-3 text-white bg-green-500 rounded border text-lg hover:bg-green-600">
+                                        Slack連携
+                                    </a>
+                                @endif
                                 <a href="#" class="inline-block w-60 text-center py-3 bg-gray-200 rounded border text-lg hover:bg-gray-300">
                                     ② 通知On/Off
                                 </a>
                             </div>
-
-
                         </div>
                     </section>
                 </div>

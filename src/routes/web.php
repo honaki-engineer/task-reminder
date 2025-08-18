@@ -55,8 +55,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('tasks', TaskController::class);
     
     Route::get('/slacks', [SlackController::class, 'index'])->name('slacks.index');
+    // Slack連携
     Route::get('/slack/authorize', [SlackController::class, 'redirectToSlack'])->name('slack.authorize');
     Route::get('/slack/callback',  [SlackController::class, 'handleCallback'])->name('slack.callback');
+    // Slack連携解除
+    Route::post('/slack/disconnect', [SlackController::class, 'disconnect'])->name('slack.disconnect');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

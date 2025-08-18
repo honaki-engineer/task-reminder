@@ -14,9 +14,13 @@ class SlackController extends Controller
         // ----- ユーザー情報
         $user = TaskService::getUser();
 
-        return view('slacks.index');
+        // ----- Slack連携情報
+        $slackNotification = $user->slackNotifications()->first();
+
+        return view('slacks.index', compact('slackNotification'));
     }
 
+    // Slack認証画面へリダイレクトする：Slack連携をスタートするための“導入ゲート”
     public function redirectToSlack()
     {
         $url = "https://slack.com/oauth/v2/authorize";
@@ -28,6 +32,7 @@ class SlackController extends Controller
         return redirect($url . '?' . http_build_query($params));
     }
 
+    // 認証後にSlackから飛んでくる場所
     public function handleCallback(Request $request)
     {
         $code = $request->code;
@@ -55,5 +60,31 @@ class SlackController extends Controller
         );
 
         return to_route('tasks.one_day')->with('success','Slack連携が完了しました！');
+    }
+
+    // Slack連携解除
+    public function disconnect()
+    {
+        // ----- ユーザー情報
+        $user = TaskService::getUser();
+
+        // ----- Slack連携情報
+        $slackNotification = $user->slackNotifications()->first();
+
+        // ----- Slack連携解除
+        if($slackNotification) {
+            // ①物理削除したい場合
+            // $slackNotification->delete();
+
+            // ②残したまま無効化したい場合（推奨）
+            $slackNotification->update([
+                'slack_user_id'    => null,
+                'slack_team_id'    => null,
+                'bot_access_token' => null,
+                'is_enabled'       => false,
+            ]);
+        }
+
+        return to_route('slacks.index')->with('success', 'Slack連携を解除しました。');
     }
 }

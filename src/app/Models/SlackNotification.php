@@ -24,4 +24,10 @@ class SlackNotification extends Model
         'is_enabled',
         'last_sent_at',
     ];
+
+    // Slack連携の確認
+    public function isLinked()
+    {
+        return $this->slack_user_id && $this->slack_team_id && $this->bot_access_token;
+    }
 }

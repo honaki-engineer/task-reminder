@@ -49,7 +49,7 @@ class User extends Authenticatable
     }
     public function slackNotifications()
     {
-        return $this->hasMany(SlackNotification::class);
+        return $this->hasOne(SlackNotification::class);
     }
 
     public function sendPasswordResetNotification($token)
