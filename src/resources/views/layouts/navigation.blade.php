@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('tasks.index')" :active="request()->routeIs('tasks.index')">
                         タスク一覧
                     </x-nav-link>
+                    <x-nav-link :href="route('slacks.index')" :active="request()->routeIs('slacks.index')">
+                        Slack連携
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -81,6 +84,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('tasks.index')" :active="request()->routeIs('tasks.index')">
                 タスク一覧
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('slacks.index')" :active="request()->routeIs('tasks.index')">
+                Slack連携
             </x-responsive-nav-link>
         </div>
 
