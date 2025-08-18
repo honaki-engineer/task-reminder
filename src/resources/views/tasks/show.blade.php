@@ -100,12 +100,11 @@
                                     {{-- ボタンエリア --}}
                                     <div class="w-full p-2 flex flex-col sm:flex-row gap-4 justify-center">
                                         {{-- 完了 --}}
-                                        <form action="{{ route('tasks.complete', ['task' => $task->id ]) }}" method="POST">
+                                        <form action="{{ route('tasks.complete', ['task' => $task->id ]) }}" method="POST" id="completeTaskForm">
                                             @csrf
                                             <input type="hidden" name="back_url" value="{{ $backUrl ?? request('back_url') }}">
                                             <button type="submit" name="action"
-                                                class="w-full text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg"
-                                                onclick="this.disabled=true; this.form.submit();">
+                                                class="w-full text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
                                                 {{ $task->is_completed ? '未完了に戻す' : '完了' }}
                                             </button>
                                         </form>
@@ -155,6 +154,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     window.deleteTask = deleteTask; // 関数をグローバルに登録
+
+
+    // 二重送信防止
+    document.getElementById('completeTaskForm').addEventListener('submit', function (e) {
+        const btn = e.submitter; // 押された送信ボタン
+        setTimeout(() => btn.disabled = true, 0); // 送信後すぐ無効化
+    });
 });
 </script>
 </x-app-layout>

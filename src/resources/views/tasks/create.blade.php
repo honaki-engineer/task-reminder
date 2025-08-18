@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900">
 
                     <section class="text-gray-600 body-font relative">
-                    <form action="{{ route('tasks.store') }}" method="POST">
+                    <form action="{{ route('tasks.store') }}" method="POST" id="taskForm">
                         @csrf
 
                         <div class="container px-5 mx-auto">
@@ -89,13 +89,11 @@
                                 {{-- ボタンエリア --}}
                                 <div class="w-full p-2 flex flex-col sm:flex-row gap-4 justify-center">
                                     <button type="submit" name="action" value="store_and_index"
-                                        class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-                                        onclick="this.disabled=true; this.form.submit();">
+                                        class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                                         登録して終了
                                     </button>
                                     <button type="submit" name="action" value="store_and_create"
-                                        class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg"
-                                        onclick="this.disabled=true; this.form.submit();">
+                                        class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
                                         登録して続けて入力
                                     </button>
                                 </div>
@@ -133,6 +131,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // textareaの高さを自動で調整する(1度目：ページ表示時)
     document.querySelectorAll('textarea').forEach(function (textarea) {
         autoResize(textarea);
+    });
+
+
+    // 二重送信防止
+    document.getElementById('taskForm').addEventListener('submit', function (e) {
+        const btn = e.submitter; // 押された送信ボタン
+        setTimeout(() => btn.disabled = true, 0); // 送信後すぐ無効化
     });
 });
 

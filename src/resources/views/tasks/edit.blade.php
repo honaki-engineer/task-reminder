@@ -14,7 +14,7 @@
                     </a>
 
                     <section class="text-gray-600 body-font relative mt-4">
-                    <form action="{{ route('tasks.update', ['task' => $task->id]) }}" method="POST">
+                    <form action="{{ route('tasks.update', ['task' => $task->id]) }}" method="POST" id="taskForm">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="back_url" value="{{ $backUrl ?? request('back_url') }}">
@@ -84,9 +84,8 @@
                                     </div>
                                     {{-- ボタンエリア --}}
                                     <div class="w-full p-2 flex flex-col sm:flex-row gap-4 justify-center">
-                                        <button type="submit" name="action" value="store_and_index"
-                                            class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-                                            onclick="this.disabled=true; this.form.submit();">
+                                        <button type="submit"
+                                            class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                                             更新
                                         </button>
                                     </div>
@@ -124,6 +123,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // textareaの高さを自動で調整する(1度目：ページ表示時)
     document.querySelectorAll('textarea').forEach(function (textarea) {
         autoResize(textarea);
+    });
+
+
+    // 二重送信防止
+    document.getElementById('taskForm').addEventListener('submit', function (e) {
+        const btn = e.submitter; // 押された送信ボタン
+        setTimeout(() => btn.disabled = true, 0); // 送信後すぐ無効化
     });
 });
 

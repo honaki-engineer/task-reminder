@@ -13,20 +13,17 @@
                     {{-- セクション --}}
                     <section class="text-gray-600 body-font relative">
                         <div class="container px-5 mx-auto">
-                            {{-- フラッシュメッセージ --}}
-                            @if(session('success'))
-                                <div class="overflow-x-auto mx-auto overflow-auto">
-                                    <div id="flash-message"
-                                        class="inline-block bg-green-100 text-green-800 rounded px-4 py-2 mb-4 transition-opacity duration-1000">
-                                        {{ session('success') }}
+                                                            {{-- フラッシュメッセージ --}}
+                                @if(session('success'))
+                                    <div class="overflow-x-auto mx-auto overflow-auto">
+                                        <div id="flash-message"
+                                            class="inline-block bg-green-100 text-green-800 rounded px-4 py-2 mb-4 transition-opacity duration-1000">
+                                            {{ session('success') }}
+                                        </div>
                                     </div>
-                                </div>
-                            @endif
+                                @endif
                             {{-- Slack連携 --}}
-                            <div class="flex flex-col items-center justify-center min-h-[400px] space-y-6">
-                                {{-- <a href="{{ route('slack.authorize') }}" class="inline-block w-60 text-center py-3 bg-gray-200 rounded border text-lg hover:bg-gray-300">
-                                    ① Slack連携/解除
-                                </a> --}}
+                            <div class="flex flex-col items-center justify-center space-y-6">
                                 @if($slackNotification && $slackNotification->isLinked())
                                     <form action="{{ route('slack.disconnect') }}" method="POST" style="display:inline;">
                                         @csrf

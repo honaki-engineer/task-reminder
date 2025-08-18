@@ -15,7 +15,7 @@ class SlackController extends Controller
         $user = TaskService::getUser();
 
         // ----- Slack連携情報
-        $slackNotification = $user->slackNotifications()->first();
+        $slackNotification = $user->slackNotification;
 
         return view('slacks.index', compact('slackNotification'));
     }
@@ -59,7 +59,7 @@ class SlackController extends Controller
             ]
         );
 
-        return to_route('tasks.one_day')->with('success','Slack連携が完了しました！');
+        return to_route('slacks.index')->with('success','Slack連携が完了しました！');
     }
 
     // Slack連携解除
@@ -69,7 +69,7 @@ class SlackController extends Controller
         $user = TaskService::getUser();
 
         // ----- Slack連携情報
-        $slackNotification = $user->slackNotifications()->first();
+        $slackNotification = $user->slackNotification;
 
         // ----- Slack連携解除
         if($slackNotification) {

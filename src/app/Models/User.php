@@ -47,7 +47,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class);
     }
-    public function slackNotifications()
+    public function slackNotification()
     {
         return $this->hasOne(SlackNotification::class);
     }
