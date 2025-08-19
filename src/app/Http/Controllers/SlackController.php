@@ -119,6 +119,6 @@ class SlackController extends Controller
         $is_enabled = $slackNotification->is_enabled;
         $flashMessage = $is_enabled ? 'ON' : 'OFF';
 
-        return to_route('slacks.index')->with('success','通知設定を' . $flashMessage . 'に変更しました。');
+        return to_route('slacks.index')->with('success','毎朝の通知設定を' . $flashMessage . 'に変更しました。');
     }
 }

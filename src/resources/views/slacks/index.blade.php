@@ -44,7 +44,7 @@
                                         <form action="{{ route('slack.toggle') }}" method="POST">
                                             @csrf
                                             <button class="inline-block w-60 py-3 text-white bg-pink-500 rounded hover:bg-pink-600">
-                                                通知OFFにする
+                                                毎朝の通知をOFFにする
                                             </button>
                                         </form>
                                     @else
@@ -52,7 +52,7 @@
                                         <form action="{{ route('slack.toggle') }}" method="POST">
                                             @csrf
                                             <button class="inline-block w-60 py-3 text-white bg-green-500 rounded hover:bg-green-600">
-                                                通知ONにする
+                                                毎朝の通知を通知ONにする
                                             </button>
                                         </form>
                                     @endif
