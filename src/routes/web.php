@@ -60,6 +60,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/slack/callback',  [SlackController::class, 'handleCallback'])->name('slack.callback');
     // Slack連携解除
     Route::post('/slack/disconnect', [SlackController::class, 'disconnect'])->name('slack.disconnect');
+    // Slack通知toggle
+    Route::post('/slack/toggle', [SlackController::class, 'toggle'])->name('slack.toggle');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

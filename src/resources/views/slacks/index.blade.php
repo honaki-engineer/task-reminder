@@ -22,8 +22,9 @@
                                         </div>
                                     </div>
                                 @endif
-                            {{-- Slack連携 --}}
+                            {{-- Slack連携全体 --}}
                             <div class="flex flex-col items-center justify-center space-y-6">
+                                {{-- Slack連携 & 解除 --}}
                                 @if($slackNotification && $slackNotification->isLinked())
                                     <form action="{{ route('slack.disconnect') }}" method="POST" style="display:inline;">
                                         @csrf
@@ -36,9 +37,26 @@
                                         Slack連携
                                     </a>
                                 @endif
-                                <a href="#" class="inline-block w-60 text-center py-3 bg-gray-200 rounded border text-lg hover:bg-gray-300">
-                                    ② 通知On/Off
-                                </a>
+                                {{-- 通知ON & OFFトグル：Slack連携済みのときだけ --}}
+                                @if($slackNotification && $slackNotification->isLinked())
+                                    @if($slackNotification->is_enabled)
+                                        {{-- ON → OFFにするリンク表示 --}}
+                                        <form action="{{ route('slack.toggle') }}" method="POST">
+                                            @csrf
+                                            <button class="inline-block w-60 py-3 text-white bg-pink-500 rounded hover:bg-pink-600">
+                                                通知OFFにする
+                                            </button>
+                                        </form>
+                                    @else
+                                        {{-- OFF → ONにするリンク表示 --}}
+                                        <form action="{{ route('slack.toggle') }}" method="POST">
+                                            @csrf
+                                            <button class="inline-block w-60 py-3 text-white bg-green-500 rounded hover:bg-green-600">
+                                                通知ONにする
+                                            </button>
+                                        </form>
+                                    @endif
+                                @endif
                             </div>
                         </div>
                     </section>
