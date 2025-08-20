@@ -9,11 +9,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-
+                    {{-- セクションタグ --}}
                     <section class="text-gray-600 body-font relative">
                     <form action="{{ route('tasks.store') }}" method="POST" id="taskForm">
                         @csrf
-
+                        {{-- コンテナー --}}
                         <div class="container px-5 mx-auto">
                             <div class="lg:w-1/2 md:w-2/3 mx-auto">
                             {{-- フラッシュメッセージ --}}
@@ -25,14 +25,13 @@
                                     </div>
                                 </div>
                             @endif
-
+                            {{-- フォーム --}}
                             <div class="flex flex-wrap -m-2">
                                 {{-- 必須のcss設定 --}}
                                 @php
                                     $badgeReq = 'ml-2 items-center rounded px-1 py-0.5
                                                 text-[11px] font-semibold bg-red-500 text-white align-top';
                                 @endphp
-
                                 {{-- タイトル --}}
                                 <div class="p-2 w-full">
                                 <div class="relative">
@@ -102,7 +101,6 @@
                         </div>
                     </form>
                     </section>
-
                 </div>
             </div>
         </div>
