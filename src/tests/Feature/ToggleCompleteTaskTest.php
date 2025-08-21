@@ -32,9 +32,7 @@ class ToggleCompleteTaskTest extends TestCase
         $this->actingAs($user);
 
         // ③ 完了切替エンドポイントへ POST
-        $response = $this->post(route('tasks.complete', ['task' => $task->id]), [
-            // もし back_url 等が必須ならここに追加
-        ]);
+        $response = $this->post(route('tasks.complete', ['task' => $task->id]));
 
         // ④ 成功(302)
         $response->assertStatus(302);
