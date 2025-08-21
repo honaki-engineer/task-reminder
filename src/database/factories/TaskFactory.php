@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
@@ -18,12 +19,13 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
-            'title'   => $this->faker->sentence,
+            'user_id'          => User::factory(),
+            'title'            => Str::limit($this->faker->sentence(6), 50, ''),
             'task_category_id' => 1,
-            'description' => $this->faker->text,
-            'start_at' => now(),
-            'end_at' => now()->addDay(),
+            'description'      => $this->faker->text,
+            'start_at'         => now(),
+            'end_at'           => now()->addDay(),
+            'is_completed'     => false,
         ];
     }
 }

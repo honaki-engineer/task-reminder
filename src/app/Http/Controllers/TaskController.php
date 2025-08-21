@@ -196,6 +196,11 @@ class TaskController extends Controller
         // ----- タスク情報取得
         $task = TaskService::getTask($user, $id);
 
+        // ----- 他人のタスクは存在しない扱い
+        if($task->user_id !== auth()->id()) {
+            abort(404);
+        }
+
         // ----- 完了処理
         $task->update([
             'is_completed' => !$task->is_completed
