@@ -39,6 +39,11 @@ class SlackController extends Controller
     // 認証後にSlackから飛んでくる場所
     public function handleCallback(Request $request)
     {
+        // ----- 未ログインの場合処理中断
+        if(!auth()->check()) {
+            abort(403);
+        }
+
         // ----- SlackのOAuth認可でSlack側から返ってきた認可コード
         $code = $request->code;
 
