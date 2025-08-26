@@ -31,4 +31,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // Slack
+    'slack' => [
+        'client_id'     => env('SLACK_CLIENT_ID'),
+        'client_secret' => env('SLACK_CLIENT_SECRET'),
+        'redirect_uri'  => env('SLACK_REDIRECT_URI'),
+        'scope'         => 'chat:write,channels:read,users:read',
+    ],
+
 ];

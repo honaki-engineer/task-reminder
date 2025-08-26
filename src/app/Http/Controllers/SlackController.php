@@ -27,9 +27,12 @@ class SlackController extends Controller
         // -----  Slack認証画面へリダイレクト
         $url = "https://slack.com/oauth/v2/authorize";
         $params = [
-            'client_id'     => env('SLACK_CLIENT_ID'),
-            'scope'         => 'chat:write,channels:read,users:read',
-            'redirect_uri'  => env('SLACK_REDIRECT_URI'),
+            // 'client_id'     => env('SLACK_CLIENT_ID'),
+            // 'scope'         => 'chat:write,channels:read,users:read',
+            // 'redirect_uri'  => env('SLACK_REDIRECT_URI'),
+            'client_id'    => config('services.slack.client_id'),
+            'scope'        => config('services.slack.scope'),
+            'redirect_uri' => config('services.slack.redirect_uri'),
         ];
 
         return redirect($url . '?' . http_build_query($params));
@@ -49,10 +52,14 @@ class SlackController extends Controller
 
         // ----- Slackから返された認可コードを使って、アクセストークンを取得するリクエストをSlackに送信
         $response = Http::asForm()->post('https://slack.com/api/oauth.v2.access',[
-            'client_id'     => env('SLACK_CLIENT_ID'),
-            'client_secret' => env('SLACK_CLIENT_SECRET'),
+            // 'client_id'     => env('SLACK_CLIENT_ID'),
+            // 'client_secret' => env('SLACK_CLIENT_SECRET'),
+            // 'code'          => $code,
+            // 'redirect_uri'  => env('SLACK_REDIRECT_URI'),
+            'client_id'     => config('services.slack.client_id'),
+            'client_secret' => config('services.slack.client_secret'),
             'code'          => $code,
-            'redirect_uri'  => env('SLACK_REDIRECT_URI'),
+            'redirect_uri'  => config('services.slack.redirect_uri'),
         ])->json();
 
         // ----- ユーザーごとのアクセストークンを保存
