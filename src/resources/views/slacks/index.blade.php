@@ -33,7 +33,7 @@
                                         </button>
                                     </form>
                                 @else
-                                    <a href="{{ route('slack.authorize') }}" class="inline-block w-60 text-center py-3 text-white bg-green-500 rounded border text-lg hover:bg-green-600">
+                                    <a href="{{ route('slack.redirect') }}" class="inline-block w-60 text-center py-3 text-white bg-green-500 rounded border text-lg hover:bg-green-600">
                                         Slack連携
                                     </a>
                                 @endif

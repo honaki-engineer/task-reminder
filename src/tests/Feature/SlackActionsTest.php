@@ -7,7 +7,7 @@ use App\Models\SlackNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class SlackAuthorizationTest extends TestCase
+class SlackActionsTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -35,7 +35,7 @@ class AuthGuestRedirectTest extends TestCase
 
         // Slack系（連携画面/認証/コールバック/解除/トグル）
         $this->get(route('slacks.index'))->assertRedirect(route('login'));
-        $this->get(route('slack.authorize'))->assertRedirect(route('login'));
+        $this->get(route('slack.redirect'))->assertRedirect(route('login'));
         $this->get(route('slack.callback'))->assertRedirect(route('login'));
         $this->post(route('slack.disconnect'))->assertRedirect(route('login'));
         $this->post(route('slack.toggle'))->assertRedirect(route('login'));

@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/slacks', [SlackController::class, 'index'])->name('slacks.index');
     // Slack連携
-    Route::get('/slack/authorize', [SlackController::class, 'redirectToSlack'])->name('slack.authorize');
+    Route::get('/slack/redirect', [SlackController::class, 'redirectToSlack'])->name('slack.redirect');
     Route::get('/slack/callback',  [SlackController::class, 'handleCallback'])->name('slack.callback');
     // Slack連携解除
     Route::post('/slack/disconnect', [SlackController::class, 'disconnect'])->name('slack.disconnect');
