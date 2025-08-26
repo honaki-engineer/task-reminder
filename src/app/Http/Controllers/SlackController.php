@@ -27,9 +27,6 @@ class SlackController extends Controller
         // -----  Slack認証画面へリダイレクト
         $url = "https://slack.com/oauth/v2/authorize";
         $params = [
-            // 'client_id'     => env('SLACK_CLIENT_ID'),
-            // 'scope'         => 'chat:write,channels:read,users:read',
-            // 'redirect_uri'  => env('SLACK_REDIRECT_URI'),
             'client_id'    => config('services.slack.client_id'),
             'scope'        => config('services.slack.scope'),
             'redirect_uri' => config('services.slack.redirect_uri'),
@@ -47,10 +44,6 @@ class SlackController extends Controller
 
         // ----- Slackから返された認可コードを使って、アクセストークンを取得するリクエストをSlackに送信
         $response = Http::asForm()->post('https://slack.com/api/oauth.v2.access',[
-            // 'client_id'     => env('SLACK_CLIENT_ID'),
-            // 'client_secret' => env('SLACK_CLIENT_SECRET'),
-            // 'code'          => $code,
-            // 'redirect_uri'  => env('SLACK_REDIRECT_URI'),
             'client_id'     => config('services.slack.client_id'),
             'client_secret' => config('services.slack.client_secret'),
             'code'          => $code,
@@ -88,10 +81,10 @@ class SlackController extends Controller
 
         // ----- Slack連携解除
         if($slackNotification) {
-            // ①物理削除したい場合
+            // 物理削除の場合
             // $slackNotification->delete();
 
-            // ②残したまま無効化したい場合（推奨）
+            // 残したまま無効化
             $slackNotification->update([
                 'slack_user_id'    => null,
                 'slack_team_id'    => null,
