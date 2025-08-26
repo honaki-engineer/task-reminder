@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,6 +12,9 @@ class SlackRedirectTest extends TestCase
 
     public function test_redirectToSlack_redirects_with_correct_query_params()
     {
+        // 認証
+        $this->actingAs(User::factory()->create());
+
         // 設定値を固定
         config([
             'services.slack.client_id'    => 'test_client_id',
