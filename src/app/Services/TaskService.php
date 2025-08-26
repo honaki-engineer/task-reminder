@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Task;
 use App\Models\TaskCategory;
+use App\Support\BackUrlSanitizer;
 use Illuminate\Support\Facades\Auth;
 
 class TaskService
@@ -53,8 +54,10 @@ class TaskService
     }  
 
     // ---- 外部URLならデフォルトに置き換えて、安全なback_urlを返す関数(query)
-    public static function getSafeBackUrlFromQuery($request): string {
-        return self::sanitizeBackUrl($request->query('back_url', ''), route('tasks.index'));
+    public static function getSafeBackUrlFromQuery($request) {
+        $default = route('tasks.index');
+        $backUrl = $request->query('back_url', '');
+        return BackUrlSanitizer::sanitize($backUrl, $default, config('app.url'));
     }
 
 
@@ -67,9 +70,12 @@ class TaskService
     }
 
     // ---- 外部URLならデフォルトに置き換えて、安全なback_urlを返す関数(input)
-    public static function getSafeBackUrlFromInput($request): string {
-        return self::sanitizeBackUrl($request->input('back_url', ''), route('tasks.index'));
+    public static function getSafeBackUrlFromInput($request) {
+        $default = route('tasks.index');
+        $backUrl = $request->input('back_url', '');
+        return BackUrlSanitizer::sanitize($backUrl, $default, config('app.url'));
     }
+
 
 
     // ----- update ------------------------------------------------------------------------------------------------
@@ -84,38 +90,5 @@ class TaskService
             'end_at' => $request->end_at, // TaskRequestで結合済み
             'is_completed' => $task->is_completed,
         ]);
-    }
-
-
-    // ----- getSafeBackUrlFromQuery - getSafeBackUrlFromInput ------------------------------------------------------
-    // ----- 画面から「戻り先URL（back_url）」が送られてきたときに「安全なURL」だけを許可する
-    private static function sanitizeBackUrl(string $backUrl, string $default): string
-    {
-        $backUrl = trim($backUrl);
-
-        // ① 空ならデフォルト
-        if($backUrl === '') return $default;
-
-        // ② //evil.com みたいに書くと「今の通信方法(http/https)を勝手に引き継いで外部サイトへ飛ばす」技が使える。
-        //    → これを防ぐ
-        if(str_starts_with($backUrl, '//')) return $default;
-
-        // ③ 「https://◯◯◯ のような絶対URLは全部ブロック」(自分のサイトは除外)
-        if(str_contains($backUrl, '://')) {
-            $host    = parse_url($backUrl, PHP_URL_HOST);
-            $appHost = parse_url(config('app.url'), PHP_URL_HOST);
-
-            if($host !== $appHost) {
-                return $default; // 外部 → ブロック
-            }
-
-            return $backUrl;     // ★ 同一オリジンの絶対URLはここで確定して返す
-        }
-
-        // ④ 相対URLだけ許可。先頭に "/" がなければ付ける
-        if(!str_starts_with($backUrl, '/')) $backUrl = '/'.$backUrl;
-
-        // ⑤ 自ドメインの絶対URLに正規化して返す
-        return url($backUrl);
     }
 }
