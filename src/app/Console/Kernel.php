@@ -20,8 +20,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('tasks:delete-old-completed')->dailyAt('03:00'); // 毎日夜中の3時に実行
         // $schedule->command('tasks:delete-old-completed')->everyMinute(); // 毎分テスト用
 
-        $schedule->command('send:daily-slack')->dailyAt('04:00');
-        // $schedule->command('send:daily-slack')->everyMinute();
+        $schedule->command('send:daily-slack')->dailyAt('04:00'); // 毎日夜中の4時に実行
+        // $schedule->command('send:daily-slack')->everyMinute(); // 毎分テスト用
     }
 
     /**
