@@ -41,8 +41,8 @@
                                     {{-- 完了タグ --}}
                                     @if($task->is_completed)
                                         <div class="p-2 w-full">
-                                            <span class="inline-block bg-green-500 text-white px-2 py-1 rounded-full text-sm">
-                                                完了済みタスクです。
+                                            <span class="bg-green-500 text-white px-2 py-1 leading-none rounded-full text-sm">
+                                                完了済みタスクです
                                             </span>
                                         </div>
                                     @endif
