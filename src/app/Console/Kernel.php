@@ -16,12 +16,20 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-            
-        $schedule->command('tasks:delete-old-completed')->dailyAt('03:00'); // 毎日夜中の3時に実行
-        // $schedule->command('tasks:delete-old-completed')->everyMinute(); // 毎分テスト用
 
-        $schedule->command('send:daily-slack')->dailyAt('04:00'); // 毎日夜中の4時に実行
-        // $schedule->command('send:daily-slack')->everyMinute(); // 毎分テスト用
+        $debug = config('schedule.debug_minute');
+
+        $delete = $schedule->command('tasks:delete-old-completed')->withoutOverlapping();
+        $remind = $schedule->command('send:daily-slack')->withoutOverlapping();
+            
+        if($debug) {
+            // 毎分テスト用
+            $delete->everyMinute();
+            $remind->everyMinute();
+        } else {
+            $delete->dailyAt('03:00'); // 毎日夜中の3時に実行
+            $remind->dailyAt('04:00'); // 毎日夜中の4時に実行
+        }
     }
 
     /**
