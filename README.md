@@ -8,8 +8,8 @@
 
 ## サイト
 
-🔗 アプリ：<https://task-reminder.akkun1114.com/>
-🔗 ゲストログイン（今すぐ試せます）：<https://task-reminder.akkun1114.com/guest-login?token=guest123>
+🔗 アプリ：<https://task-reminder.akkun1114.com/>  
+🔗 ゲストログイン（今すぐ試せます）：<https://task-reminder.akkun1114.com/guest-login?token=guest123>  
 
 ---
 
@@ -130,7 +130,7 @@ task-reminder/
 
 ## 本番環境の注意点
 
-Xserver 上で Laravel アプリを本番公開する際の詳細な手順（SSH 接続、`.env` 設定、`.htaccess` 配置、`index.php` 修正、ビルドファイルの配置など） は、以下の記事にまとめています：
+Xserver 上で Laravel アプリを本番公開する際の詳細な手順（SSH 接続、`.env` 設定、`.htaccess` 配置、`index.php` 修正、ビルドファイルの配置など） のまとめ：
 
 - ローカル（Docker） & エックスサーバー（サブドメイン） の場合  
   <https://qiita.com/honaki/items/abf3f8cba40f5b9a2e3b>
