@@ -22,7 +22,6 @@ class SlackNotification extends Model
         'slack_team_id',
         'bot_access_token',
         'is_enabled',
-        'last_sent_at',
     ];
 
     // Slack連携の確認

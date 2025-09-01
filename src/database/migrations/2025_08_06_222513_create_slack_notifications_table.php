@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('slack_team_id', 100)->nullable();
             $table->text('bot_access_token')->nullable();
             $table->boolean('is_enabled')->default(false);
-            $table->timestamp('last_sent_at')->nullable();
             $table->timestamps();
         });
     }
