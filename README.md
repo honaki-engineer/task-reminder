@@ -32,7 +32,6 @@ Laravel 9.x / PHP 8.2 / MariaDB 10.5 / Docker Compose / Node.js 22.x（ローカ
 ---
 
 ## 主な機能
-### 開発者目線
 
 - **認証/認可**：Breeze、全ルート `auth` / 取得は本人スコープ固定  
 - **タスク**：CRUD / 完了トグル / 締切昇順・キーワード検索 / 1日ビュー（`start_at` が今日以前）  
