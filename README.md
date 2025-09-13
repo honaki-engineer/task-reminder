@@ -27,7 +27,14 @@
 
 ## 使用技術
 
-Laravel 9.x / PHP 8.2 / MariaDB 10.5 / Docker Compose / Node.js 22.x（ローカル） / 16.20.2（本番：nodebrew） / Tailwind / Xserver（本番）
+ MariaDB 10.5 / Docker Compose / Node.js 22.x（ローカル） / 16.20.2（本番：nodebrew） / Tailwind / Xserver（本番）
+
+- **フロントエンド**：HTML / JavaScript / Tailwind CSS
+- **バックエンド**：PHP 8.2 / Laravel 9.x  
+- **データベース**：MariaDB 10.5 (ローカル:Docker) / MariaDB 10.5 (Xserver・MySQL互換)  
+- **インフラ・環境**：Docker Compose / macOS Sequoia 15.3.1 / Xserver  
+- **ビルド環境**：Node.js 22.x (ローカル:Docker) / Node.js 16.20.2 (本番環境:Xserver に nodebrew で導入) / Composer 2.x  
+- **開発ツール**：VSCode / Git / GitHub / phpMyAdmin 
 
 ---
 
