@@ -212,6 +212,8 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
-    // ゲストログインの遷移元とのトークンを指定
-    'guest_token' => env('GUEST_LOGIN_TOKEN'),
+    // ゲストログイン
+    'guest_token' => env('GUEST_LOGIN_TOKEN'), // 遷移元とのトークンを指定
+    'guest_password' => env('GUEST_PASSWORD'), // ゲストログインのパスワード
+    'guest_email' => env('GUEST_EMAIL'), // // ゲストログインのメールアドレス
 ];

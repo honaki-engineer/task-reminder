@@ -173,6 +173,11 @@ MAIL_FROM_NAME="${APP_NAME}"
 SLACK_CLIENT_ID=
 SLACK_CLIENT_SECRET=
 SLACK_REDIRECT_URI=
+
+# ゲストログイン
+GUEST_LOGIN_TOKEN=guest123    # ゲストログイントークン
+GUEST_PASSWORD=guestpassword  # ゲストログインのパスワード
+GUEST_EMAIL=guest@example.com # ゲストログインのメールアドレス
 ```
 
 ---
