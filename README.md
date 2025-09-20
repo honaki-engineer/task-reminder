@@ -88,7 +88,7 @@
 1. リポジトリをクローン
 ```bash
 git clone https://github.com/honaki-engineer/task-reminder.git task-reminder-quick
-cd task-reminder
+cd task-reminder-quick
 ```
 2. Dockerコンテナ起動  
 `docker-compose.yml`のあるディレクトリでコマンド実行
@@ -121,7 +121,7 @@ php artisan key:generate
 ```bash
 exit # Docker コンテナを抜ける
 
-pwd # ~/task-reminder
+pwd # ~/task-reminder-quick
 cd ./src
 npm install
 npm run dev
@@ -138,8 +138,8 @@ chmod +x setup.sh
 ```
 10. Slack連携〜毎朝通知の構成  
   https://qiita.com/honaki/items/32568fda4ea3cb5a3447
-11. アクセス
-ご自身の`port`番号に合わせてください。  
+11. アクセス  
+  ご自身の`port`番号に合わせてください。  
 - アプリ  
   http://localhost:8080  
 - phpMyAdmin  
