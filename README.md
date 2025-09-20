@@ -107,7 +107,7 @@ docker compose exec app bash
 ```bash
 cp .env.example .env
 ```
-.env の `DB_` 各項目などは、開発環境に応じて適宜変更してください。  
+`.env`の`DB_`各項目などは、開発環境に応じて適宜変更してください。  
 - [.env 設定例（開発環境）](#env-設定例開発環境)
 5. PHPパッケージをインストール
 ```bash
@@ -139,7 +139,7 @@ chmod +x setup.sh
 10. Slack連携〜毎朝通知の構成  
   https://qiita.com/honaki/items/32568fda4ea3cb5a3447
 11. アクセス  
-  ご自身の`port`番号に合わせてください。  
+  ご自身の port 番号に合わせてください。  
 - アプリ  
   http://localhost:8080  
 - phpMyAdmin  
