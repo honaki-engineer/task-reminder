@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    container_name: task-reminder-app
     volumes:
       - ./src:/var/www/html
       - ./docker/apache/default.conf:/etc/apache2/sites-available/000-default.conf
@@ -16,7 +15,6 @@ services:
 
   db:
     image: mariadb:10.5
-    container_name: task-reminder-db
     volumes:
       - dbdata_task_reminder:/var/lib/mysql
       - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
@@ -32,7 +30,6 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     platform: linux/amd64
-    container_name: task-reminder-phpmyadmin
     ports:
       - "8081:80"
     environment:
@@ -44,7 +41,6 @@ services:
 
   mailpit:
     image: axllent/mailpit
-    container_name: task-reminder-mailpit
     ports:
       - "8025:8025"
       - "1025:1025"

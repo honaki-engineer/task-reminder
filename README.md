@@ -87,7 +87,7 @@
 
 1. リポジトリをクローン
 ```bash
-git clone https://github.com/honaki-engineer/task-reminder.git
+git clone https://github.com/honaki-engineer/task-reminder.git task-reminder-quick
 cd task-reminder
 ```
 2. Dockerコンテナ起動  
@@ -117,11 +117,7 @@ composer install
 ```bash
 php artisan key:generate
 ```
-7. DBマイグレーション & 初期データ投入
-```bash
-php artisan migrate --seed
-```
-8. フロントエンドビルド（Tailwind/Vite 使用時）
+7. フロントエンドビルド（Tailwind/Vite 使用時）
 ```bash
 exit # Docker コンテナを抜ける
 
@@ -129,6 +125,11 @@ pwd # ~/task-reminder
 cd ./src
 npm install
 npm run dev
+```
+8. DBマイグレーション & 初期データ投入
+```bash
+docker compose exec app bash # Dockerコンテナに入る
+php artisan migrate --seed
 ```
 9. 初期画像作成（ストレージリンク作成含む）
 ```bash
@@ -138,10 +139,13 @@ chmod +x setup.sh
 10. Slack連携〜毎朝通知の構成  
   https://qiita.com/honaki/items/32568fda4ea3cb5a3447
 11. アクセス
+ご自身の`port`番号に合わせてください。  
 - アプリ  
   http://localhost:8080  
 - phpMyAdmin  
   http://localhost:8081  
+- Mailpit  
+  http://localhost:8025  
   
   
 ### .env 設定例（開発環境）
@@ -169,7 +173,7 @@ MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS="hello@example.com"
 MAIL_FROM_NAME="${APP_NAME}"
 
-# Slack OAuth（セットアップ９で解説）
+# Slack OAuth（セットアップ10で解説）
 SLACK_CLIENT_ID=
 SLACK_CLIENT_SECRET=
 SLACK_REDIRECT_URI=
@@ -178,6 +182,9 @@ SLACK_REDIRECT_URI=
 GUEST_LOGIN_TOKEN=guest123    # ゲストログイントークン
 GUEST_PASSWORD=guestpassword  # ゲストログインのパスワード
 GUEST_EMAIL=guest@example.com # ゲストログインのメールアドレス
+
+# スケジュールテスト（true:false=開発:本番）
+SCHEDULE_DEBUG_MINUTE=true
 ```
 
 ---
@@ -232,7 +239,7 @@ task-reminder/
 - **Unit**：`back_url` サニタイズ（外部絶対URL や プロトコル相対URL等の拒否）
 
 ### テスト手順
-1. [セットアップ手順 8. フロントエンドビルド](#セットアップ手順開発環境)を実行  
+1. [セットアップ手順 7. フロントエンドビルド](#セットアップ手順開発環境)を実行  
 2. [セットアップ手順 2. Dockerコンテナ起動](#セットアップ手順開発環境)を実行  
 3. [セットアップ手順 3. Dockerコンテナに入る](#セットアップ手順開発環境)を実行  
 4. テスト実行
